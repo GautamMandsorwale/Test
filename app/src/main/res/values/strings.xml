@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">My App Portfolio</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="my_nanodegree_apps_text">MY NANODEGREE APPS!</string>
+    <string name="action_settings">Settings</string>
+
+    <!--App texts-->
+    <string name="spotify_streamer_app_text">SPOTIFY STREAMER</string>
+    <string name="super_duo_app_text">SUPER DUO</string>
+    <string name="library_app_text">LIBRARY APP</string>
+    <string name="build_it_bigger_app_text">BUILD IT BIGGER</string>
+    <string name="xyz_reader_app_text">XYZ READER</string>
+    <string name="capstone_app_text">CAPSTONE: MY OWN APP</string>
+    <!--App texts-->
+
+
+    <!--Toasts texts-->
+    <string name="spotify_streamer_app_toast_text">This button will launch Spotify Streamer App!</string>
+    <string name="super_duo_app_toast_text"> This button will launch SuperDuo App!</string>
+    <string name="library_app_toast_text">This button will launch Library App!</string>
+    <string name="build_it_bigger_app_toast_text">This button will launch Build it Bigger App!</string>
+    <string name="xyz_reader_app_toast_text">This button will launch XYZ Reader App!</string>
+    <string name="capstone_app_toast_text">This button will launch My Capstone App!</string>
+    <!--Toasts texts-->
+
+
+</resources>
