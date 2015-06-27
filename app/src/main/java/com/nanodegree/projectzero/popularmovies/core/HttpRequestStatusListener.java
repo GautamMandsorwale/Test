@@ -1,9 +1,9 @@
-package com.nanodegree.projectzero.popularmovies;
+package com.nanodegree.projectzero.popularmovies.core;
 
 /**
  * Created by Gautam on 28/06/15.
  */
-public interface IHttpRequest {
+public interface HttpRequestStatusListener {
 
     public void httpRequestSuccesful(String response);
 

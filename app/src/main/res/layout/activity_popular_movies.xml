@@ -7,6 +7,5 @@
         android:id="@+id/popularMoviesGridViewId"
         android:layout_width="match_parent"
         android:numColumns="@integer/popular_mmovies_activity_gridview_num_of_columns"
-        android:columnWidth="@dimen/popular_movies_activity_gridview_column_width"
         android:layout_height="match_parent" />
 </RelativeLayout>

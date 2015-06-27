@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.nanodegree.projectzero.popularmovies.PopularMoviesMainActivity;
+import com.nanodegree.projectzero.popularmovies.ui.PopularMoviesMainActivity;
 import com.nanodegree.projectzero.utils.Utils;
 
 

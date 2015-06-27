@@ -1,9 +1,10 @@
 package com.nanodegree.projectzero.popularmovies.network;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
-import com.nanodegree.projectzero.popularmovies.IHttpRequest;
+import com.nanodegree.projectzero.popularmovies.constants.NetworkConstants;
+import com.nanodegree.projectzero.popularmovies.core.HttpRequestStatusListener;
+import com.nanodegree.projectzero.popularmovies.core.HttpRequestTaskController;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -18,12 +19,12 @@ import java.io.InputStreamReader;
 /**
  * Created by Gautam on 28/06/15.
  */
-public class HttpAsyncTask extends AsyncTask<String, Void, String> {
+public class HttpRequestTask extends AsyncTask<String, Void, String> {
 
-    private IHttpRequest mContext = null;
+    private HttpRequestStatusListener mHttpRequestStatusListener = null;
 
-    public HttpAsyncTask(Context context) {
-        this.mContext = (IHttpRequest) context;
+    public HttpRequestTask(HttpRequestTaskController context) {
+        this.mHttpRequestStatusListener = context;
     }
 
     @Override
@@ -40,22 +41,24 @@ public class HttpAsyncTask extends AsyncTask<String, Void, String> {
 
 
     @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
+    protected void onPostExecute(String response) {
+        super.onPostExecute(response);
 
-        if (!s.equalsIgnoreCase(NetworkConstants.FAILED_HTTP_REQUEST_MESSAGE)) {
-            mContext.httpRequestSuccesful(s);
+        if (response != null) {
+            if (!response.equalsIgnoreCase(NetworkConstants.FAILED_HTTP_REQUEST_MESSAGE)) {
+                mHttpRequestStatusListener.httpRequestSuccesful(response);
+            } else {
+                mHttpRequestStatusListener.httpRequestFailed(response);
+            }
         } else {
-            mContext.httpRequestFailed(s);
+            mHttpRequestStatusListener.httpRequestFailed(response);
         }
-
     }
 
 
     private String httpGetRequest(String url) {
         String mHttpGetResponse = null;
-        InputStream mInputStream = null;
-
+        InputStream mInputStream;
 
         try {
             HttpClient mHttpClient = new DefaultHttpClient();

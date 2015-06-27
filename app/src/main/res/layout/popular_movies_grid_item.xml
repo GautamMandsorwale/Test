@@ -4,7 +4,7 @@
     android:id="@+id/mPopularMoviesGridItemImgViewId"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:background="@android:color/holo_blue_bright" />
+    android:adjustViewBounds="true"
+    android:scaleType="fitXY" />
 
     <!--android:layout_width="@dimen/popular_movies_activity_griditem_width"--><!--android:layout_height="@dimen/popular_movies_activity_griditem_height"-->

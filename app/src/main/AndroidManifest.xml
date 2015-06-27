@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".popularmovies.PopularMoviesMainActivity"></activity>
+        <activity android:name=".popularmovies.ui.PopularMoviesMainActivity"></activity>
     </application>
 
 </manifest>
