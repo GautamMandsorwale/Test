@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mPopularMoviesGridItemImgViewId"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@android:color/holo_blue_bright" />
+
+    <!--android:layout_width="@dimen/popular_movies_activity_griditem_width"--><!--android:layout_height="@dimen/popular_movies_activity_griditem_height"-->
