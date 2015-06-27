@@ -6,7 +6,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.nanodegree.projectzero.utils.Utils;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
@@ -46,23 +47,27 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v == mSpotifyStreamerBtn) {
-            Toast.makeText(MainActivity.this, getResources().getString(R.string.spotify_streamer_app_toast_text), Toast.LENGTH_SHORT).show();
+            showToastMessage(R.string.spotify_streamer_app_toast_text);
         }
         if (v == mSuperDuoBtn) {
-            Toast.makeText(MainActivity.this, getResources().getString(R.string.super_duo_app_toast_text), Toast.LENGTH_SHORT).show();
+            showToastMessage(R.string.super_duo_app_toast_text);
         }
         if (v == mLibraryAppBtn) {
-            Toast.makeText(MainActivity.this, getResources().getString(R.string.library_app_toast_text), Toast.LENGTH_SHORT).show();
+            showToastMessage(R.string.library_app_toast_text);
         }
         if (v == mBuildItBiggerAppBtn) {
-            Toast.makeText(MainActivity.this, getResources().getString(R.string.build_it_bigger_app_toast_text), Toast.LENGTH_SHORT).show();
+            showToastMessage(R.string.build_it_bigger_app_toast_text);
         }
         if (v == mXyzReaderBtn) {
-            Toast.makeText(MainActivity.this, getResources().getString(R.string.xyz_reader_app_toast_text), Toast.LENGTH_SHORT).show();
+            showToastMessage(R.string.xyz_reader_app_toast_text);
         }
         if (v == mCapstoneAppBtn) {
-            Toast.makeText(MainActivity.this, getResources().getString(R.string.capstone_app_toast_text), Toast.LENGTH_SHORT).show();
+            showToastMessage(R.string.capstone_app_toast_text);
         }
+    }
+
+    private void showToastMessage(int resId) {
+        Utils.getToast(MainActivity.this, Utils.getResourceString(MainActivity.this, resId)).show();
     }
 
 }
