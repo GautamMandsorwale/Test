@@ -23,9 +23,9 @@
 
     <Button
         style="@style/main_activity_button_style"
-        android:text="@string/spotify_streamer_app_text"
+        android:text="@string/popular_movies_app_text"
         android:layout_weight="0.5"
-        android:id="@+id/spotifyStreamerAppBtnId" />
+        android:id="@+id/popularMoviesAppBtnId" />
 
     <Button
         android:text="@string/super_duo_app_text"

@@ -6,7 +6,7 @@
     <string name="action_settings">Settings</string>
 
     <!--App texts-->
-    <string name="spotify_streamer_app_text">SPOTIFY STREAMER</string>
+    <string name="popular_movies_app_text">POPULAR MOVIES</string>
     <string name="super_duo_app_text">SUPER DUO</string>
     <string name="library_app_text">LIBRARY APP</string>
     <string name="build_it_bigger_app_text">BUILD IT BIGGER</string>
@@ -16,7 +16,7 @@
 
 
     <!--Toasts texts-->
-    <string name="spotify_streamer_app_toast_text">This button will launch Spotify Streamer App!</string>
+    <string name="popular_movies_app_toast_text">This button will launch Popular Movies App!</string>
     <string name="super_duo_app_toast_text"> This button will launch SuperDuo App!</string>
     <string name="library_app_toast_text">This button will launch Library App!</string>
     <string name="build_it_bigger_app_toast_text">This button will launch Build it Bigger App!</string>

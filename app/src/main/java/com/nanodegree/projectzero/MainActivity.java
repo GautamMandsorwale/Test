@@ -1,5 +1,6 @@
 package com.nanodegree.projectzero;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -7,12 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.nanodegree.projectzero.popularmovies.PopularMoviesMainActivity;
 import com.nanodegree.projectzero.utils.Utils;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
-    private Button mSpotifyStreamerBtn, mSuperDuoBtn, mLibraryAppBtn, mBuildItBiggerAppBtn, mXyzReaderBtn, mCapstoneAppBtn;
+    private Button mPopularMoviesBtn, mSuperDuoBtn, mLibraryAppBtn, mBuildItBiggerAppBtn, mXyzReaderBtn, mCapstoneAppBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +31,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         TextView mHeaderTextView = (TextView) findViewById(R.id.headerTextViewId);
         mHeaderTextView.setTypeface(font);
 
-        mSpotifyStreamerBtn = (Button) findViewById(R.id.spotifyStreamerAppBtnId);
-        mSpotifyStreamerBtn.setOnClickListener(this);
+        mPopularMoviesBtn = (Button) findViewById(R.id.popularMoviesAppBtnId);
+        mPopularMoviesBtn.setOnClickListener(this);
         mSuperDuoBtn = (Button) findViewById(R.id.superDuoAppBtnId);
         mSuperDuoBtn.setOnClickListener(this);
         mLibraryAppBtn = (Button) findViewById(R.id.libraryAppBtnId);
@@ -46,8 +48,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v == mSpotifyStreamerBtn) {
-            showToastMessage(R.string.spotify_streamer_app_toast_text);
+        if (v == mPopularMoviesBtn) {
+//            showToastMessage(R.string.popular_movies_app_toast_text);
+
+            startActivity(new Intent(MainActivity.this, PopularMoviesMainActivity.class));
         }
         if (v == mSuperDuoBtn) {
             showToastMessage(R.string.super_duo_app_toast_text);
