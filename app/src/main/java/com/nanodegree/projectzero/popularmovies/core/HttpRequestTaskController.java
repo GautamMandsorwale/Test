@@ -1,10 +1,10 @@
 package com.nanodegree.projectzero.popularmovies.core;
 
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.Bundle;
 
-import com.nanodegree.projectzero.popularmovies.constants.PopularMovieConstants;
 import com.nanodegree.projectzero.popularmovies.constants.NetworkConstants;
+import com.nanodegree.projectzero.popularmovies.constants.PopularMovieConstants;
 import com.nanodegree.projectzero.popularmovies.network.HttpRequestTask;
 
 import org.json.JSONArray;
@@ -20,7 +20,7 @@ public class HttpRequestTaskController implements HttpRequestStatusListener {
 
     private ArrayList<MoviesDataModel> mMoviesDataArrayList = null;
     UpdateViewListener mUpdateViewListener = null;
-
+    private ProgressDialog mProgressDialog = null;
 
     public HttpRequestTaskController(Context context) {
         this.mUpdateViewListener = (UpdateViewListener) context;
@@ -29,15 +29,21 @@ public class HttpRequestTaskController implements HttpRequestStatusListener {
 
     public void executeHttpRequest(int filterParameter) {
 
+        mProgressDialog = new ProgressDialog((Context) mUpdateViewListener);
+        mProgressDialog.setMessage("Please Wait..");
+        mProgressDialog.show();
+
         switch (filterParameter) {
             case PopularMovieConstants.MOST_POPULAR:
-                new HttpRequestTask(this).execute(NetworkConstants.MOVIES_HTTP_URL_POPULARITY_DESC + NetworkConstants.MOVIES_DB_API_KEY);
+                new HttpRequestTask(this).execute(NetworkConstants.MOVIES_HTTP_URL_SORT_POPULARITY_DESC + NetworkConstants.MOVIES_DB_API_KEY);
                 break;
             case PopularMovieConstants.HIGHEST_RATED:
+                new HttpRequestTask(this).execute(NetworkConstants.MOVIES_HTTP_URL_SORT_HIGHEST_RATED_DESC + NetworkConstants.MOVIES_DB_API_KEY);
                 break;
             case PopularMovieConstants.FAVOURITES_COLLECTION:
                 break;
             default:
+                dismissProgressDialog();
                 break;
         }
 
@@ -91,11 +97,19 @@ public class HttpRequestTaskController implements HttpRequestStatusListener {
 
     @Override
     public void httpRequestSuccesful(String response) {
+        dismissProgressDialog();
         parseHttpResponse(response);
     }
 
     @Override
     public void httpRequestFailed(String response) {
+        dismissProgressDialog();
         mUpdateViewListener.updateView(null, false);
+
+    }
+
+    private void dismissProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
     }
 }

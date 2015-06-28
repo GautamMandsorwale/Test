@@ -5,7 +5,7 @@ package com.nanodegree.projectzero.popularmovies.core;
  */
 public interface HttpRequestStatusListener {
 
-    public void httpRequestSuccesful(String response);
+    void httpRequestSuccesful(String response);
 
-    public void httpRequestFailed(String response);
+    void httpRequestFailed(String response);
 }

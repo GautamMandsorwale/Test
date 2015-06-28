@@ -60,7 +60,7 @@ public class PopularMoviesGridAdapter extends BaseAdapter {
         }
 
         String mPosterUrlStr = NetworkConstants.MOVIE_POSTER_IMAGE_BASE_URL + NetworkConstants.MOVIE_POSTER_IMAGE_PHONE_SIZE + mMoviesDataArrayList.get(position).getMoviePosterPath();
-       Picasso.with(mContext).load(mPosterUrlStr).placeholder(R.drawable.abc_spinner_mtrl_am_alpha).into(mViewHolder.mGridItemImgView);
+       Picasso.with(mContext).load(mPosterUrlStr).into(mViewHolder.mGridItemImgView);
 
 //        Picasso.with(mContext).load("https://cms-assets.tutsplus.com/uploads/users/21/posts/19431/featured_image/CodeFeature.jpg").placeholder(R.drawable.sample_5).into(mViewHolder.mGridItemImgView);
 //        mViewHolder.mGridItemImgView.setImageResource(mThumbIds[position]);

@@ -7,5 +7,5 @@ import android.os.Bundle;
  */
 public interface UpdateViewListener {
 
-    public void updateView(Object data, boolean shouldUpdate);
+    void updateView(Object data, boolean shouldUpdate);
 }
