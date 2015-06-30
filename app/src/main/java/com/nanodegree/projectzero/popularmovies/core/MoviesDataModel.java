@@ -1,15 +1,18 @@
 package com.nanodegree.projectzero.popularmovies.core;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONArray;
 
 /**
  * Created by Gautam on 28/06/15.
  */
-public class MoviesDataModel {
+public class MoviesDataModel implements Parcelable {
 
     private boolean mIsMovieAdult = false;
     private String mMovieBackdropPath = null;
-    private JSONArray mMovieGenreIds = null;
+    private String mMovieGenreIds = null;
     private int mMovieId = -1;
     private String mMovieOriginalLanguage = null;
     private String mMovieOriginalTitle = null;
@@ -21,6 +24,61 @@ public class MoviesDataModel {
     private boolean mHasVideo = false;
     private int mMovieVoteAverage = -1;
     private int mMovieVoteCount = -1;
+
+
+    public MoviesDataModel() {
+
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte(mIsMovieAdult ? (byte) 1 : (byte) 0);
+        dest.writeString(this.mMovieBackdropPath);
+        dest.writeString(this.mMovieGenreIds);
+        dest.writeInt(this.mMovieId);
+        dest.writeString(this.mMovieOriginalLanguage);
+        dest.writeString(this.mMovieOriginalTitle);
+        dest.writeString(this.mMovieOverview);
+        dest.writeString(this.mMovieReleaseDate);
+        dest.writeString(this.mMoviePosterPath);
+        dest.writeInt(this.mMoviePopularity);
+        dest.writeString(this.mMovieTitle);
+        dest.writeByte(mHasVideo ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.mMovieVoteAverage);
+        dest.writeInt(this.mMovieVoteCount);
+    }
+
+    private MoviesDataModel(Parcel in) {
+        this.mIsMovieAdult = in.readByte() != 0;
+        this.mMovieBackdropPath = in.readString();
+        this.mMovieGenreIds = in.readString();
+        this.mMovieId = in.readInt();
+        this.mMovieOriginalLanguage = in.readString();
+        this.mMovieOriginalTitle = in.readString();
+        this.mMovieOverview = in.readString();
+        this.mMovieReleaseDate = in.readString();
+        this.mMoviePosterPath = in.readString();
+        this.mMoviePopularity = in.readInt();
+        this.mMovieTitle = in.readString();
+        this.mHasVideo = in.readByte() != 0;
+        this.mMovieVoteAverage = in.readInt();
+        this.mMovieVoteCount = in.readInt();
+    }
+
+    public static final Creator<MoviesDataModel> CREATOR = new Creator<MoviesDataModel>() {
+        public MoviesDataModel createFromParcel(Parcel source) {
+            return new MoviesDataModel(source);
+        }
+
+        public MoviesDataModel[] newArray(int size) {
+            return new MoviesDataModel[size];
+        }
+    };
 
 
     public boolean isIsMovieAdult() {
@@ -39,11 +97,12 @@ public class MoviesDataModel {
         this.mMovieBackdropPath = mMovieBackdropPath;
     }
 
-    public JSONArray getMovieGenreIds() {
+    public String getMovieGenreIds()
+    {
         return mMovieGenreIds;
     }
 
-    public void setMovieGenreIds(JSONArray mMovieGenreIds) {
+    public void setMovieGenreIds(String mMovieGenreIds) {
         this.mMovieGenreIds = mMovieGenreIds;
     }
 

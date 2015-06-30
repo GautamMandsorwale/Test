@@ -24,7 +24,10 @@ public class PopularMovieConstants {
     public static final String KEY_MOVIE_VIDEO = "video";
     public static final String KEY_MOVIE_VOTE_AVERAGE = "vote_average";
     public static final String KEY_MOVIE_VOTE_COUNT = "vote_count";
-
+    public static final String KEY_MOVIE_DATA_BUNDLE = "movie_data_bundle";
+    public static final String POPULAR_MOVIES_ACTIVITY_TITLE = "Popular Movies";
+    public static final String POPULAR_MOVIES_DETAIL_ACTIVITY_TITLE = "Movie Detail";
+    public static final String POPULAR_MOVIES_RATING_TOTAL = "/10";
 
 
     //    "adult":false,

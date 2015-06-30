@@ -51,7 +51,7 @@ public class PopularMoviesGridAdapter extends BaseAdapter {
             mViewHolder = new ViewHolder();
 
             convertView = mLayoutInflater.inflate(R.layout.popular_movies_grid_item, null);
-            mViewHolder.mGridItemImgView = (ImageView) convertView.findViewById(R.id.mPopularMoviesGridItemImgViewId);
+            mViewHolder.mGridItemImgView = (ImageView) convertView.findViewById(R.id.popularMoviesGridItemImgViewId);
 
             convertView.setTag(mViewHolder);
 
