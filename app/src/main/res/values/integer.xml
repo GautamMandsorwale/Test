@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <integer name="popular_mmovies_activity_gridview_num_of_columns">2</integer>
+    <integer name="popular_movies_phone_gridview_num_of_columns">2</integer>
+    <integer name="popular_movies_tablet_gridview_num_of_columns">3</integer>
 </resources>

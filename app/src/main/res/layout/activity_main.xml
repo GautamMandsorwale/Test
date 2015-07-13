@@ -1,61 +1,9 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentContainerId"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="5"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="@color/main_activity_background_color"
     tools:context=".MainActivity">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textStyle="bold"
-        android:gravity="center_vertical"
-        android:textColor="@color/main_activity_header_text_color"
-        android:textSize="@dimen/main_activity_header_text_size"
-        android:text="@string/my_nanodegree_apps_text"
-        android:id="@+id/headerTextViewId"
-        android:layout_marginTop="@dimen/activity_vertical_margin" />
-
-    <Button
-        style="@style/main_activity_button_style"
-        android:text="@string/popular_movies_app_text"
-        android:layout_weight="0.5"
-        android:id="@+id/popularMoviesAppBtnId" />
-
-    <Button
-        android:text="@string/super_duo_app_text"
-        style="@style/main_activity_button_style"
-        android:layout_weight="0.5"
-        android:id="@+id/superDuoAppBtnId" />
-
-    <Button
-        android:text="@string/library_app_text"
-        style="@style/main_activity_button_style"
-        android:layout_weight="0.5"
-        android:id="@+id/libraryAppBtnId" />
-
-    <Button
-        android:text="@string/build_it_bigger_app_text"
-        android:layout_weight="0.5"
-        android:id="@+id/buildItBiggerAppBtnId"
-        style="@style/main_activity_button_style" />
-
-    <Button
-        android:text="@string/xyz_reader_app_text"
-        android:layout_weight="0.5"
-        android:id="@+id/xyzReaderBtnId"
-        style="@style/main_activity_button_style" />
-
-    <Button
-        android:text="@string/capstone_app_text"
-        android:layout_weight="0.5"
-        android:id="@+id/capstoneAppVBtnId"
-        style="@style/main_activity_button_style" />
-
-
-</LinearLayout>
+</FrameLayout>

@@ -3,9 +3,14 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="my_nanodegree_apps_text">MY NANODEGREE APPS!</string>
+    <string name="welcome_title_text">Welcome</string>
+    <string name="please_wait_msg_text">Please Wait..</string>
+    <string name="http_error_msg_text">There was a problem, please try again.</string>
 
+    <!--Menu items texts-->
     <string name="action_sort_popular_movies_text">Popular Movies</string>
     <string name="action_sort_highest_rated_movies_text">Highest Rated Movies</string>
+    <!--Menu items texts-->
 
     <!--App texts-->
     <string name="popular_movies_app_text">POPULAR MOVIES</string>
@@ -26,5 +31,11 @@
     <string name="capstone_app_toast_text">This button will launch My Capstone App!</string>
     <!--Toasts texts-->
 
+
+    <!--Popular Movies texts-->
+    <string name="popular_movies_title_text">Popular Movies</string>
+    <string name="highest_rated_movies_title_text">Highest Rated Movies</string>
+    <string name="movie_details_title_text">Movie Detail</string>
+    <!--Popular Movies texts-->
 
 </resources>

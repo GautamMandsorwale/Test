@@ -6,6 +6,7 @@
     <GridView
         android:id="@+id/popularMoviesGridViewId"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:numColumns="@integer/popular_movies_phone_gridview_num_of_columns"
-        android:layout_height="match_parent" />
+        android:scrollbars="none" />
 </RelativeLayout>
