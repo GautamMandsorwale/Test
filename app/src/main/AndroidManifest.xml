@@ -20,8 +20,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.gautam.nanodegree.popularmovies.ui.PopularMoviesMainActivity" />
-        <activity android:name="com.gautam.nanodegree.popularmovies.ui.PopularMovieDetailsActivity" />
     </application>
 
 </manifest>

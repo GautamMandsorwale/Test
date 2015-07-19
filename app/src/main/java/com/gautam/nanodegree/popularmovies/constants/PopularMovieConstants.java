@@ -7,11 +7,12 @@ import com.gautam.nanodegree.R;
  */
 public class PopularMovieConstants {
 
-    public static final int MOST_POPULAR = 1;
-    public static final int HIGHEST_RATED = 2;
-    public static final int FAVOURITES_COLLECTION = 3;
+    public static final int REQUEST_TYPE_MOST_POPULAR = 1;
+    public static final int REQUEST_TYPE_HIGHEST_RATED = 2;
+    public static final int REQUEST_TYPE_FAVOURITES_COLLECTION = 3;
+    public static final int REQUEST_TYPE_MOVIE_TRAILERS = 4;
 
-    public static final String KEY_MOVIES_ARRAY = "results";
+    public static final String KEY_MOVIE_RESULTS_ARRAY = "results";
     public static final String KEY_MOVIE_ADULT = "adult";
     public static final String KEY_MOVIE_BACKDROP_PATH = "backdrop_path";
     public static final String KEY_MOVIE_GENRE_IDS = "genre_ids";
@@ -30,6 +31,13 @@ public class PopularMovieConstants {
     public static final String POPULAR_MOVIES_RATING_TOTAL = "/10";
     public static final String POPULAR_MOVIES_FRAGMENT_TAG = "popular_movies";
     public static final String POPULAR_MOVIES_DETAILS_FRAGMENT_TAG = "popular_movie_details";
+    public static final String KEY_MOVIE_TRAILER_ID = "id";
+    public static final String KEY_MOVIE_TRAILER_ISO = "iso_639_1";
+    public static final String KEY_MOVIE_TRAILER_KEY = "key";
+    public static final String KEY_MOVIE_TRAILER_NAME = "name";
+    public static final String KEY_MOVIE_TRAILER_SITE = "site";
+    public static final String KEY_MOVIE_TRAILER_SIZE = "size";
+    public static final String KEY_MOVIE_TRAILER_TYPE = "type";
 
 
     //    "adult":false,

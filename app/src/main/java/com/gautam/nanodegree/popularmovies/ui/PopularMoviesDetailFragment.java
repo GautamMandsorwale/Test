@@ -1,30 +1,38 @@
 package com.gautam.nanodegree.popularmovies.ui;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gautam.nanodegree.R;
 import com.gautam.nanodegree.popularmovies.constants.NetworkConstants;
 import com.gautam.nanodegree.popularmovies.constants.PopularMovieConstants;
+import com.gautam.nanodegree.popularmovies.core.HttpRequestTaskController;
 import com.gautam.nanodegree.popularmovies.core.MoviesDataModel;
+import com.gautam.nanodegree.popularmovies.core.UpdateViewListener;
 import com.gautam.nanodegree.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 /**
  * Created by Gautam on 09/07/15.
  */
-public class PopularMoviesDetailFragment extends Fragment {
+public class PopularMoviesDetailFragment extends Fragment implements UpdateViewListener {
 
     private static Context mContext = null;
     private MoviesDataModel mMoviesDataModel = null;
     private TextView mPopularMovieTitleTxtView, mPopularMovieReleaseDateTxtView, mPopularMovieRatingTxtView, mPopularMovieOverviewTxtView = null;
     private ImageView mPopularMovieThumbnailImgView = null;
+    private ListView mPopularMoviesTrailersListView = null;
 
 
     public static PopularMoviesDetailFragment newInstance(Context context, Object data) {
@@ -43,6 +51,7 @@ public class PopularMoviesDetailFragment extends Fragment {
         Bundle mBundle = getArguments();
         if (mBundle != null) {
             mMoviesDataModel = mBundle.getParcelable(PopularMovieConstants.KEY_MOVIE_DATA_BUNDLE);
+            new HttpRequestTaskController(mMoviesDataModel.getMovieId(), PopularMoviesDetailFragment.this).executeHttpRequest(PopularMovieConstants.REQUEST_TYPE_MOVIE_TRAILERS);
         }
     }
 
@@ -55,7 +64,39 @@ public class PopularMoviesDetailFragment extends Fragment {
         mPopularMovieRatingTxtView = (TextView) mRootView.findViewById(R.id.popularMovieRatingTxtViewId);
         mPopularMovieOverviewTxtView = (TextView) mRootView.findViewById(R.id.popularMovieOverviewTextViewId);
         mPopularMovieThumbnailImgView = (ImageView) mRootView.findViewById(R.id.popularMovieThumbnailImgViewId);
+        mPopularMoviesTrailersListView = (ListView) mRootView.findViewById(R.id.movieTrailersListViewId);
+        mPopularMoviesTrailersListView.setOnTouchListener(new ListView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
 
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+                // Handle ListView touch events.
+                v.onTouchEvent(event);
+                return true;
+            }
+        });
+
+        mPopularMoviesTrailersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                String urlStr = "https://www.youtube.com/watch?v=";
+                MoviesDataModel mMoviesDataModel = (MoviesDataModel) parent.getItemAtPosition(position);
+                intent.setData(Uri.parse(urlStr + mMoviesDataModel.getMovieTrailerKey()));
+                startActivity(intent);
+            }
+        });
 
         if (mMoviesDataModel != null) {
             showMovieDetais(mMoviesDataModel);
@@ -92,5 +133,14 @@ public class PopularMoviesDetailFragment extends Fragment {
 
         String mPosterThumbnailUrlStr = NetworkConstants.MOVIE_POSTER_IMAGE_BASE_URL + NetworkConstants.MOVIE_POSTER_THUMBNAIL_PHONE_SIZE;
         Picasso.with(mContext).load(mPosterThumbnailUrlStr + mMoviesDataModel.getMoviePosterPath()).into(mPopularMovieThumbnailImgView);
+    }
+
+    @Override
+    public void updateView(Object data, boolean shouldUpdate) {
+        if (shouldUpdate) {
+            mPopularMoviesTrailersListView.setAdapter(new MovieTrailersAdapter(mContext, data));
+        } else {
+            Utils.getToast(mContext, mContext.getString(R.string.http_error_msg_text)).show();
+        }
     }
 }

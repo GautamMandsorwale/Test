@@ -36,6 +36,8 @@
     <string name="popular_movies_title_text">Popular Movies</string>
     <string name="highest_rated_movies_title_text">Highest Rated Movies</string>
     <string name="movie_details_title_text">Movie Detail</string>
+    <string name="movie_trailers_text">Trailers :</string>
+    <string name="mark_favorite_text">Mark Favorite</string>
     <!--Popular Movies texts-->
 
 </resources>

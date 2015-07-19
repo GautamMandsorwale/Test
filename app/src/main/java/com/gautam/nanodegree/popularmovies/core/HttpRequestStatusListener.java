@@ -5,7 +5,7 @@ package com.gautam.nanodegree.popularmovies.core;
  */
 public interface HttpRequestStatusListener {
 
-    void httpRequestSuccessful(String response);
+    void httpRequestSuccessful(int requestType, String response);
 
     void httpRequestFailed(String response);
 }

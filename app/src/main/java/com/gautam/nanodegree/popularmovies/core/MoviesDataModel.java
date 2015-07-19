@@ -22,61 +22,18 @@ public class MoviesDataModel implements Parcelable {
     private boolean mHasVideo = false;
     private int mMovieVoteAverage = -1;
     private int mMovieVoteCount = -1;
+    private String mMovieTrailerId = null;
+    private String mMovieTrailerIso = null;
+    private String mMovieTrailerKey = null;
+    private String mMovieTrailerName = null;
+    private String mMovieTrailerSite = null;
+    private int mMovieTrailerSize = -1;
+    private String mMovieTrailerType = null;
 
 
     public MoviesDataModel() {
 
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte(mIsMovieAdult ? (byte) 1 : (byte) 0);
-        dest.writeString(this.mMovieBackdropPath);
-        dest.writeString(this.mMovieGenreIds);
-        dest.writeInt(this.mMovieId);
-        dest.writeString(this.mMovieOriginalLanguage);
-        dest.writeString(this.mMovieOriginalTitle);
-        dest.writeString(this.mMovieOverview);
-        dest.writeString(this.mMovieReleaseDate);
-        dest.writeString(this.mMoviePosterPath);
-        dest.writeInt(this.mMoviePopularity);
-        dest.writeString(this.mMovieTitle);
-        dest.writeByte(mHasVideo ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.mMovieVoteAverage);
-        dest.writeInt(this.mMovieVoteCount);
-    }
-
-    private MoviesDataModel(Parcel in) {
-        this.mIsMovieAdult = in.readByte() != 0;
-        this.mMovieBackdropPath = in.readString();
-        this.mMovieGenreIds = in.readString();
-        this.mMovieId = in.readInt();
-        this.mMovieOriginalLanguage = in.readString();
-        this.mMovieOriginalTitle = in.readString();
-        this.mMovieOverview = in.readString();
-        this.mMovieReleaseDate = in.readString();
-        this.mMoviePosterPath = in.readString();
-        this.mMoviePopularity = in.readInt();
-        this.mMovieTitle = in.readString();
-        this.mHasVideo = in.readByte() != 0;
-        this.mMovieVoteAverage = in.readInt();
-        this.mMovieVoteCount = in.readInt();
-    }
-
-    public static final Creator<MoviesDataModel> CREATOR = new Creator<MoviesDataModel>() {
-        public MoviesDataModel createFromParcel(Parcel source) {
-            return new MoviesDataModel(source);
-        }
-
-        public MoviesDataModel[] newArray(int size) {
-            return new MoviesDataModel[size];
-        }
-    };
 
 
     public boolean isIsMovieAdult() {
@@ -191,4 +148,123 @@ public class MoviesDataModel implements Parcelable {
         this.mMovieVoteCount = mMovieVoteCount;
     }
 
+    public String getMovieTrailerType() {
+        return mMovieTrailerType;
+    }
+
+    public void setMovieTrailerType(String mMovieTrailerType) {
+        this.mMovieTrailerType = mMovieTrailerType;
+    }
+
+    public int getMovieTrailerSize() {
+        return mMovieTrailerSize;
+    }
+
+    public void setMovieTrailerSize(int mMovieTrailerSize) {
+        this.mMovieTrailerSize = mMovieTrailerSize;
+    }
+
+    public String getMovieTrailerSite() {
+        return mMovieTrailerSite;
+    }
+
+    public void setMovieTrailerSite(String mMovieTrailerSite) {
+        this.mMovieTrailerSite = mMovieTrailerSite;
+    }
+
+    public String getMovieTrailerName() {
+        return mMovieTrailerName;
+    }
+
+    public void setMovieTrailerName(String mMovieTrailerName) {
+        this.mMovieTrailerName = mMovieTrailerName;
+    }
+
+    public String getMovieTrailerKey() {
+        return mMovieTrailerKey;
+    }
+
+    public void setMovieTrailerKey(String mMovieTrailerKey) {
+        this.mMovieTrailerKey = mMovieTrailerKey;
+    }
+
+    public String getMovieTrailerIso() {
+        return mMovieTrailerIso;
+    }
+
+    public void setMovieTrailerIso(String mMovieTrailerIso) {
+        this.mMovieTrailerIso = mMovieTrailerIso;
+    }
+
+    public String getMovieTrailerId() {
+        return mMovieTrailerId;
+    }
+
+    public void setMovieTrailerId(String mMovieTrailerId) {
+        this.mMovieTrailerId = mMovieTrailerId;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte(mIsMovieAdult ? (byte) 1 : (byte) 0);
+        dest.writeString(this.mMovieBackdropPath);
+        dest.writeString(this.mMovieGenreIds);
+        dest.writeInt(this.mMovieId);
+        dest.writeString(this.mMovieOriginalLanguage);
+        dest.writeString(this.mMovieOriginalTitle);
+        dest.writeString(this.mMovieOverview);
+        dest.writeString(this.mMovieReleaseDate);
+        dest.writeString(this.mMoviePosterPath);
+        dest.writeInt(this.mMoviePopularity);
+        dest.writeString(this.mMovieTitle);
+        dest.writeByte(mHasVideo ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.mMovieVoteAverage);
+        dest.writeInt(this.mMovieVoteCount);
+        dest.writeString(this.mMovieTrailerId);
+        dest.writeString(this.mMovieTrailerIso);
+        dest.writeString(this.mMovieTrailerKey);
+        dest.writeString(this.mMovieTrailerName);
+        dest.writeString(this.mMovieTrailerSite);
+        dest.writeInt(this.mMovieTrailerSize);
+        dest.writeString(this.mMovieTrailerType);
+    }
+
+    protected MoviesDataModel(Parcel in) {
+        this.mIsMovieAdult = in.readByte() != 0;
+        this.mMovieBackdropPath = in.readString();
+        this.mMovieGenreIds = in.readString();
+        this.mMovieId = in.readInt();
+        this.mMovieOriginalLanguage = in.readString();
+        this.mMovieOriginalTitle = in.readString();
+        this.mMovieOverview = in.readString();
+        this.mMovieReleaseDate = in.readString();
+        this.mMoviePosterPath = in.readString();
+        this.mMoviePopularity = in.readInt();
+        this.mMovieTitle = in.readString();
+        this.mHasVideo = in.readByte() != 0;
+        this.mMovieVoteAverage = in.readInt();
+        this.mMovieVoteCount = in.readInt();
+        this.mMovieTrailerId = in.readString();
+        this.mMovieTrailerIso = in.readString();
+        this.mMovieTrailerKey = in.readString();
+        this.mMovieTrailerName = in.readString();
+        this.mMovieTrailerSite = in.readString();
+        this.mMovieTrailerSize = in.readInt();
+        this.mMovieTrailerType = in.readString();
+    }
+
+    public static final Creator<MoviesDataModel> CREATOR = new Creator<MoviesDataModel>() {
+        public MoviesDataModel createFromParcel(Parcel source) {
+            return new MoviesDataModel(source);
+        }
+
+        public MoviesDataModel[] newArray(int size) {
+            return new MoviesDataModel[size];
+        }
+    };
 }

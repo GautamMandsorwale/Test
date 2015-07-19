@@ -22,9 +22,15 @@ import java.io.InputStreamReader;
 public class HttpRequestTask extends AsyncTask<String, Void, String> {
 
     private HttpRequestStatusListener mHttpRequestStatusListener = null;
+    private int mRequestType = -1;
 
-    public HttpRequestTask(HttpRequestTaskController context) {
+//    public HttpRequestTask(HttpRequestTaskController context) {
+//        this.mHttpRequestStatusListener = context;
+//    }
+
+    public HttpRequestTask(int requestType, HttpRequestTaskController context) {
         this.mHttpRequestStatusListener = context;
+        this.mRequestType = requestType;
     }
 
     @Override
@@ -46,7 +52,7 @@ public class HttpRequestTask extends AsyncTask<String, Void, String> {
 
         if (response != null) {
             if (!response.equalsIgnoreCase(NetworkConstants.FAILED_HTTP_REQUEST_MESSAGE)) {
-                mHttpRequestStatusListener.httpRequestSuccessful(response);
+                mHttpRequestStatusListener.httpRequestSuccessful(mRequestType, response);
             } else {
                 mHttpRequestStatusListener.httpRequestFailed(response);
             }

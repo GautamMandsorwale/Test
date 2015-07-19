@@ -5,6 +5,7 @@
     android:background="@android:color/white">
 
     <ScrollView
+        android:id="@+id/movieDetailsScrollId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none">
@@ -73,6 +74,16 @@
                         android:textColor="@color/abc_primary_text_disable_only_material_light"
                         android:textSize="@dimen/popular_movie_rating_textsize" />
 
+                    <Button
+                        android:id="@+id/markFavoriteBtnId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@android:color/holo_green_dark"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="@string/mark_favorite_text"
+                        />
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -85,11 +96,23 @@
                 android:textColor="@color/abc_primary_text_disable_only_material_light"
                 android:textSize="@dimen/popular_movie_overview_textsize" />
 
-            <ListView
-                android:id="@+id/listView"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp" />
+                android:layout_margin="10dp"
+                android:text="@string/movie_trailers_text"
+                android:textColor="@color/abc_primary_text_disable_only_material_light"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ListView
+                android:id="@+id/movieTrailersListViewId"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:dividerHeight="2dp" />
+
         </LinearLayout>
     </ScrollView>
+
 </RelativeLayout>

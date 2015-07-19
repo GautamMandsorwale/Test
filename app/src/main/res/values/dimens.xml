@@ -14,9 +14,9 @@
     <dimen name="popular_movies_activity_gridview_spacing">10dp</dimen>
     <dimen name="popular_movies_activity_griditem_height">250dp</dimen>
     <dimen name="popular_movies_activity_griditem_width">150dp</dimen>
-    <dimen name="popular_movie_details_title_textsize">32sp</dimen>
-    <dimen name="popular_movie_release_date_textsize">20sp</dimen>
-    <dimen name="popular_movie_rating_textsize">18sp</dimen>
-    <dimen name="popular_movie_overview_textsize">20sp</dimen>
+    <dimen name="popular_movie_details_title_textsize">30sp</dimen>
+    <dimen name="popular_movie_release_date_textsize">18sp</dimen>
+    <dimen name="popular_movie_rating_textsize">16sp</dimen>
+    <dimen name="popular_movie_overview_textsize">18sp</dimen>
 
 </resources>

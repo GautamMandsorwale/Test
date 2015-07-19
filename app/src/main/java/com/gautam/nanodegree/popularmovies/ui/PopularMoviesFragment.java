@@ -43,7 +43,7 @@ public class PopularMoviesFragment extends Fragment implements UpdateViewListene
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        new HttpRequestTaskController(PopularMoviesFragment.this).executeHttpRequest(PopularMovieConstants.MOST_POPULAR);
+        new HttpRequestTaskController(PopularMoviesFragment.this).executeHttpRequest(PopularMovieConstants.REQUEST_TYPE_MOST_POPULAR);
     }
 
     @Override
@@ -65,14 +65,14 @@ public class PopularMoviesFragment extends Fragment implements UpdateViewListene
                 if (mCurrentSortChoiceStr != null && !mCurrentSortChoiceStr.equalsIgnoreCase(Utils.getResourceString(mContext, R.string.popular_movies_title_text))) {
                     mCurrentSortChoiceStr = Utils.getResourceString(mContext, R.string.popular_movies_title_text);
                     getActivity().setTitle(mCurrentSortChoiceStr);
-                    new HttpRequestTaskController(this).executeHttpRequest(PopularMovieConstants.MOST_POPULAR);
+                    new HttpRequestTaskController(this).executeHttpRequest(PopularMovieConstants.REQUEST_TYPE_MOST_POPULAR);
                 }
                 return true;
             case R.id.highestRatedMoviesMenuId:
                 if (mCurrentSortChoiceStr != null && !mCurrentSortChoiceStr.equalsIgnoreCase(Utils.getResourceString(mContext, R.string.highest_rated_movies_title_text))) {
                     mCurrentSortChoiceStr = Utils.getResourceString(mContext, R.string.highest_rated_movies_title_text);
                     getActivity().setTitle(mCurrentSortChoiceStr);
-                    new HttpRequestTaskController(this).executeHttpRequest(PopularMovieConstants.HIGHEST_RATED);
+                    new HttpRequestTaskController(this).executeHttpRequest(PopularMovieConstants.REQUEST_TYPE_HIGHEST_RATED);
                 }
                 return true;
             default:
