@@ -3,6 +3,8 @@ package com.gautam.nanodegree.popularmovies.core;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 /**
  * Created by Gautam on 28/06/15.
  */
@@ -29,6 +31,8 @@ public class MoviesDataModel implements Parcelable {
     private String mMovieTrailerSite = null;
     private int mMovieTrailerSize = -1;
     private String mMovieTrailerType = null;
+
+    private ArrayList<MoviesDataModel> mMovieTrailersArr = null;
 
 
     public MoviesDataModel() {
@@ -202,6 +206,13 @@ public class MoviesDataModel implements Parcelable {
 
     public void setMovieTrailerId(String mMovieTrailerId) {
         this.mMovieTrailerId = mMovieTrailerId;
+    }
+    public ArrayList<MoviesDataModel> getMovieTrailersArr() {
+        return mMovieTrailersArr;
+    }
+
+    public void setMovieTrailersArr(ArrayList<MoviesDataModel> mMovieTrailersArr) {
+        this.mMovieTrailersArr = mMovieTrailersArr;
     }
 
     @Override

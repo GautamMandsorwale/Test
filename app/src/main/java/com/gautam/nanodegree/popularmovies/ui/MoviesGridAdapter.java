@@ -17,12 +17,12 @@ import java.util.ArrayList;
 /**
  * Created by Gautam on 27/06/15.
  */
-public class PopularMoviesGridAdapter extends BaseAdapter {
+public class MoviesGridAdapter extends BaseAdapter {
     private final LayoutInflater mLayoutInflater;
     private Context mContext;
     private ArrayList<MoviesDataModel> mMoviesDataArrayList = null;
 
-    public PopularMoviesGridAdapter(Context context, Object data) {
+    public MoviesGridAdapter(Context context, Object data) {
         this.mContext = context;
         this.mMoviesDataArrayList = (ArrayList<MoviesDataModel>) data;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 
 import com.gautam.nanodegree.popularmovies.constants.PopularMovieConstants;
+import com.gautam.nanodegree.popularmovies.db.PopularMoviesDbHelper;
 import com.gautam.nanodegree.popularmovies.ui.PopularMoviesDetailFragment;
 import com.gautam.nanodegree.popularmovies.ui.PopularMoviesFragment;
 import com.gautam.nanodegree.ui.HomeFragment;
@@ -18,6 +19,7 @@ public class MainActivity extends ActionBarActivity implements FragmentChangeLis
     private FragmentManager mFragmentManager = null;
     private FragmentTransaction mFragmentTransaction = null;
     private PopularMoviesFragment mPopularMoviesFragment = null;
+    private PopularMoviesDbHelper mPopularMoviesDbHelper = null;
 
 
     @Override
@@ -26,6 +28,8 @@ public class MainActivity extends ActionBarActivity implements FragmentChangeLis
         setContentView(R.layout.activity_main);
 
         setTitle(Utils.getResourceString(this, R.string.welcome_title_text));
+
+        mPopularMoviesDbHelper = new PopularMoviesDbHelper(this);
 
         loadHomeFragment();
     }

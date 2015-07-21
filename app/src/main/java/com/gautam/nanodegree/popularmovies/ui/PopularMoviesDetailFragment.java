@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,8 +21,12 @@ import com.gautam.nanodegree.popularmovies.constants.PopularMovieConstants;
 import com.gautam.nanodegree.popularmovies.core.HttpRequestTaskController;
 import com.gautam.nanodegree.popularmovies.core.MoviesDataModel;
 import com.gautam.nanodegree.popularmovies.core.UpdateViewListener;
+import com.gautam.nanodegree.popularmovies.db.PopularMoviesDbWrapper;
 import com.gautam.nanodegree.utils.Utils;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 /**
  * Created by Gautam on 09/07/15.
@@ -30,6 +35,7 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
 
     private static Context mContext = null;
     private MoviesDataModel mMoviesDataModel = null;
+    private MoviesDataModel mMoviesDataModel_trailers = null;
     private TextView mPopularMovieTitleTxtView, mPopularMovieReleaseDateTxtView, mPopularMovieRatingTxtView, mPopularMovieOverviewTxtView = null;
     private ImageView mPopularMovieThumbnailImgView = null;
     private ListView mPopularMoviesTrailersListView = null;
@@ -65,6 +71,18 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
         mPopularMovieOverviewTxtView = (TextView) mRootView.findViewById(R.id.popularMovieOverviewTextViewId);
         mPopularMovieThumbnailImgView = (ImageView) mRootView.findViewById(R.id.popularMovieThumbnailImgViewId);
         mPopularMoviesTrailersListView = (ListView) mRootView.findViewById(R.id.movieTrailersListViewId);
+        Button mMarkFavoriteBtn = (Button) mRootView.findViewById(R.id.markFavoriteBtnId);
+
+        mMarkFavoriteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Save favorite
+
+                saveFavoriteMovieToDb();
+
+            }
+        });
+
         mPopularMoviesTrailersListView.setOnTouchListener(new ListView.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -135,9 +153,26 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
         Picasso.with(mContext).load(mPosterThumbnailUrlStr + mMoviesDataModel.getMoviePosterPath()).into(mPopularMovieThumbnailImgView);
     }
 
+    private void saveFavoriteMovieToDb() {
+
+//        mMoviesDataModel.setMovieTrailerId(mMoviesDataModel_trailers.getMovieTrailerId());
+//        mMoviesDataModel.setMovieTrailerIso(mMoviesDataModel_trailers.getMovieTrailerIso());
+//        mMoviesDataModel.setMovieTrailerKey(mMoviesDataModel_trailers.getMovieTrailerKey());
+//        mMoviesDataModel.setMovieTrailerName(mMoviesDataModel_trailers.getMovieTrailerName());
+//        mMoviesDataModel.setMovieTrailerSite(mMoviesDataModel_trailers.getMovieTrailerSite());
+//        mMoviesDataModel.setMovieTrailerSize(mMoviesDataModel_trailers.getMovieTrailerSize());
+//        mMoviesDataModel.setMovieTrailerType(mMoviesDataModel_trailers.getMovieTrailerType());
+        Gson gson = new Gson();
+        String moviesDataObjJsonStr = gson.toJson(mMoviesDataModel);
+
+        PopularMoviesDbWrapper.favoriteMovieInsertQuery(mContext, moviesDataObjJsonStr);
+    }
+
     @Override
     public void updateView(Object data, boolean shouldUpdate) {
         if (shouldUpdate) {
+
+            mMoviesDataModel.setMovieTrailersArr((ArrayList<MoviesDataModel>) data);
             mPopularMoviesTrailersListView.setAdapter(new MovieTrailersAdapter(mContext, data));
         } else {
             Utils.getToast(mContext, mContext.getString(R.string.http_error_msg_text)).show();
