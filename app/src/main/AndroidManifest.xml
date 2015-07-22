@@ -3,6 +3,7 @@
     package="com.gautam.nanodegree">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -24,9 +25,9 @@
             android:name="com.gautam.nanodegree.popularmovies.db.PopularMoviesProvider"
             android:authorities="app-portfolio-authority"
             android:multiprocess="true"
+            android:exported="false"
             android:readPermission="com.gautam.nanodegree.READ_POPULAR_MOVIES_DB"
-            android:writePermission="com.gautam.nanodegree.WRITE_POPULAR_MOVIES_DB" >
-        </provider>
+            android:writePermission="com.gautam.nanodegree.WRITE_POPULAR_MOVIES_DB"/>
 
     </application>
 

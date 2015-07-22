@@ -39,6 +39,7 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
     private TextView mPopularMovieTitleTxtView, mPopularMovieReleaseDateTxtView, mPopularMovieRatingTxtView, mPopularMovieOverviewTxtView = null;
     private ImageView mPopularMovieThumbnailImgView = null;
     private ListView mPopularMoviesTrailersListView = null;
+    private Button mMarkFavoriteBtn = null;
 
 
     public static PopularMoviesDetailFragment newInstance(Context context, Object data) {
@@ -71,15 +72,13 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
         mPopularMovieOverviewTxtView = (TextView) mRootView.findViewById(R.id.popularMovieOverviewTextViewId);
         mPopularMovieThumbnailImgView = (ImageView) mRootView.findViewById(R.id.popularMovieThumbnailImgViewId);
         mPopularMoviesTrailersListView = (ListView) mRootView.findViewById(R.id.movieTrailersListViewId);
-        Button mMarkFavoriteBtn = (Button) mRootView.findViewById(R.id.markFavoriteBtnId);
+        mMarkFavoriteBtn = (Button) mRootView.findViewById(R.id.markFavoriteBtnId);
 
         mMarkFavoriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Save favorite
-
                 saveFavoriteMovieToDb();
-
             }
         });
 
@@ -109,9 +108,8 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                String urlStr = "https://www.youtube.com/watch?v=";
                 MoviesDataModel mMoviesDataModel = (MoviesDataModel) parent.getItemAtPosition(position);
-                intent.setData(Uri.parse(urlStr + mMoviesDataModel.getMovieTrailerKey()));
+                intent.setData(Uri.parse(PopularMovieConstants.YOUTUBE_VIDEO_URL + mMoviesDataModel.getMovieTrailerKey()));
                 startActivity(intent);
             }
         });
@@ -166,14 +164,15 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
         String moviesDataObjJsonStr = gson.toJson(mMoviesDataModel);
 
         PopularMoviesDbWrapper.favoriteMovieInsertQuery(mContext, moviesDataObjJsonStr);
+
     }
 
     @Override
     public void updateView(Object data, boolean shouldUpdate) {
         if (shouldUpdate) {
-
             mMoviesDataModel.setMovieTrailersArr((ArrayList<MoviesDataModel>) data);
             mPopularMoviesTrailersListView.setAdapter(new MovieTrailersAdapter(mContext, data));
+            mMarkFavoriteBtn.setEnabled(true);
         } else {
             Utils.getToast(mContext, mContext.getString(R.string.http_error_msg_text)).show();
         }

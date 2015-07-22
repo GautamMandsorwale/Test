@@ -6,4 +6,8 @@
     <item
         android:id="@+id/highestRatedMoviesMenuId"
         android:title="@string/action_sort_highest_rated_movies_text" />
+
+    <item
+        android:id="@+id/favoriteMoviesMenuId"
+        android:title="@string/action_sort_favorite_movies_text" />
 </menu>
