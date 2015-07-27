@@ -146,24 +146,19 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
         mPopularMovieRatingTxtView.setText(String.valueOf(mMoviesDataModel.getMovieVoteAverage()) + PopularMovieConstants.POPULAR_MOVIES_RATING_TOTAL);
         mPopularMovieOverviewTxtView.setText(mMoviesDataModel.getMovieOverview());
 
-
         String mPosterThumbnailUrlStr = NetworkConstants.MOVIE_POSTER_IMAGE_BASE_URL + NetworkConstants.MOVIE_POSTER_THUMBNAIL_PHONE_SIZE;
         Picasso.with(mContext).load(mPosterThumbnailUrlStr + mMoviesDataModel.getMoviePosterPath()).into(mPopularMovieThumbnailImgView);
     }
 
     private void saveFavoriteMovieToDb() {
 
-//        mMoviesDataModel.setMovieTrailerId(mMoviesDataModel_trailers.getMovieTrailerId());
-//        mMoviesDataModel.setMovieTrailerIso(mMoviesDataModel_trailers.getMovieTrailerIso());
-//        mMoviesDataModel.setMovieTrailerKey(mMoviesDataModel_trailers.getMovieTrailerKey());
-//        mMoviesDataModel.setMovieTrailerName(mMoviesDataModel_trailers.getMovieTrailerName());
-//        mMoviesDataModel.setMovieTrailerSite(mMoviesDataModel_trailers.getMovieTrailerSite());
-//        mMoviesDataModel.setMovieTrailerSize(mMoviesDataModel_trailers.getMovieTrailerSize());
-//        mMoviesDataModel.setMovieTrailerType(mMoviesDataModel_trailers.getMovieTrailerType());
         Gson gson = new Gson();
+        mMoviesDataModel.setIsMovieFavorite(true);
         String moviesDataObjJsonStr = gson.toJson(mMoviesDataModel);
 
         PopularMoviesDbWrapper.favoriteMovieInsertQuery(mContext, moviesDataObjJsonStr);
+
+        mMarkFavoriteBtn.setEnabled(false);
 
     }
 
@@ -172,7 +167,13 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
         if (shouldUpdate) {
             mMoviesDataModel.setMovieTrailersArr((ArrayList<MoviesDataModel>) data);
             mPopularMoviesTrailersListView.setAdapter(new MovieTrailersAdapter(mContext, data));
-            mMarkFavoriteBtn.setEnabled(true);
+            if (mMoviesDataModel.isMovieFavorite()) {
+                mMarkFavoriteBtn.setEnabled(false);
+                mMarkFavoriteBtn.setText(PopularMovieConstants.IS_YOUR_FAVORITE);
+            } else {
+                mMarkFavoriteBtn.setEnabled(true);
+            }
+
         } else {
             Utils.getToast(mContext, mContext.getString(R.string.http_error_msg_text)).show();
         }

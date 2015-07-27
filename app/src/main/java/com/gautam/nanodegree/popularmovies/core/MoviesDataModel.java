@@ -31,6 +31,7 @@ public class MoviesDataModel implements Parcelable {
     private String mMovieTrailerSite = null;
     private int mMovieTrailerSize = -1;
     private String mMovieTrailerType = null;
+    private boolean mIsMovieFavorite = false;
 
     private ArrayList<MoviesDataModel> mMovieTrailersArr = null;
 
@@ -215,6 +216,14 @@ public class MoviesDataModel implements Parcelable {
         this.mMovieTrailersArr = mMovieTrailersArr;
     }
 
+    public boolean isMovieFavorite() {
+        return mIsMovieFavorite;
+    }
+
+    public void setIsMovieFavorite(boolean mIsMovieFavorite) {
+        this.mIsMovieFavorite = mIsMovieFavorite;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -243,6 +252,8 @@ public class MoviesDataModel implements Parcelable {
         dest.writeString(this.mMovieTrailerSite);
         dest.writeInt(this.mMovieTrailerSize);
         dest.writeString(this.mMovieTrailerType);
+        dest.writeByte(mIsMovieFavorite ? (byte) 1 : (byte) 0);
+        dest.writeTypedList(mMovieTrailersArr);
     }
 
     protected MoviesDataModel(Parcel in) {
@@ -267,6 +278,8 @@ public class MoviesDataModel implements Parcelable {
         this.mMovieTrailerSite = in.readString();
         this.mMovieTrailerSize = in.readInt();
         this.mMovieTrailerType = in.readString();
+        this.mIsMovieFavorite = in.readByte() != 0;
+        this.mMovieTrailersArr = in.createTypedArrayList(MoviesDataModel.CREATOR);
     }
 
     public static final Creator<MoviesDataModel> CREATOR = new Creator<MoviesDataModel>() {

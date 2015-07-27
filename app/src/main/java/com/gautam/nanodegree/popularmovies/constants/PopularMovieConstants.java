@@ -39,6 +39,7 @@ public class PopularMovieConstants {
     public static final String KEY_MOVIE_TRAILER_SIZE = "size";
     public static final String KEY_MOVIE_TRAILER_TYPE = "type";
     public static final String YOUTUBE_VIDEO_URL = "https://www.youtube.com/watch?v=";
+    public static final String IS_YOUR_FAVORITE = "Is your Favorite";
 
 
     //    "adult":false,

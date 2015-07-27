@@ -27,6 +27,7 @@ import com.gautam.nanodegree.popularmovies.core.MoviesDataModel;
 import com.gautam.nanodegree.popularmovies.core.UpdateViewListener;
 import com.gautam.nanodegree.utils.NetworkUtil;
 import com.gautam.nanodegree.utils.Utils;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -55,9 +56,16 @@ public class PopularMoviesFragment extends Fragment implements UpdateViewListene
 
         if (NetworkUtil.getConnectivityStatus(mContext) == 0) {
             Utils.getToast(mContext, mContext.getString(R.string.not_connected_to_internet_text)).show();
+            handleNoInternetConnection();
         } else {
+            mCurrentSortChoiceStr = Utils.getResourceString(mContext, R.string.popular_movies_title_text);
+            getActivity().setTitle(mCurrentSortChoiceStr);
             new HttpRequestTaskController(PopularMoviesFragment.this).executeHttpRequest(PopularMovieConstants.REQUEST_TYPE_MOST_POPULAR);
         }
+    }
+
+    private void handleNoInternetConnection() {
+        fetchFavoriteMoviesFromDb();
     }
 
     @Override
@@ -77,10 +85,7 @@ public class PopularMoviesFragment extends Fragment implements UpdateViewListene
         if (NetworkUtil.getConnectivityStatus(mContext) == 0) {
             if (item.getItemId() == R.id.favoriteMoviesMenuId) {
                 if (canSort(Utils.getResourceString(mContext, R.string.favorite_movies_title_text))) {
-                    mCurrentSortChoiceStr = Utils.getResourceString(mContext, R.string.favorite_movies_title_text);
-                    getActivity().setTitle(mCurrentSortChoiceStr);
-
-                    fetchFavoriteMoviesFromDb();
+                    handleNoInternetConnection();
                 }
 //                if (mCurrentSortChoiceStr != null && !mCurrentSortChoiceStr.equalsIgnoreCase(Utils.getResourceString(mContext, R.string.popular_movies_title_text))) {
 //                    mCurrentSortChoiceStr = Utils.getResourceString(mContext, R.string.favorite_movies_title_text);
@@ -150,14 +155,9 @@ public class PopularMoviesFragment extends Fragment implements UpdateViewListene
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                MoviesDataModel mMoviesDataModel = (MoviesDataModel) parent.getItemAtPosition(position);
-
-                mFragmentChangeListener.fragmentChangeEvent(FragmentChangeListener.POPULAR_MOVIES_DETAILS_EVENT, mMoviesDataModel);
+                handleGridItemClick(parent, position);
             }
         });
-
-        mCurrentSortChoiceStr = Utils.getResourceString(mContext, R.string.popular_movies_title_text);
-        getActivity().setTitle(mCurrentSortChoiceStr);
 
         return mRooView;
     }
@@ -201,6 +201,23 @@ public class PopularMoviesFragment extends Fragment implements UpdateViewListene
         return mCanSort;
     }
 
+
+    private void handleGridItemClick(AdapterView<?> parent, int position) {
+
+        MoviesDataModel mMoviesDataModel = null;
+        if (mPopularMoviesGridView.getAdapter() instanceof MoviesGridAdapter) {
+            mMoviesDataModel = (MoviesDataModel) parent.getItemAtPosition(position);
+
+        } else if (mPopularMoviesGridView.getAdapter() instanceof FavoriteMovieCursorAdapter) {
+            final Cursor mCursor = mFavoriteMovieCursorAdapter.getCursor();
+            mCursor.moveToPosition(position);
+            String mFavoriteMovieStr = mCursor.getString(mCursor.getColumnIndex(FavoriteMoviesTable.FAVORITE_MOVIES_DATA));
+            Gson gson = new Gson();
+            mMoviesDataModel = gson.fromJson(mFavoriteMovieStr, MoviesDataModel.class);
+        }
+
+        mFragmentChangeListener.fragmentChangeEvent(FragmentChangeListener.POPULAR_MOVIES_DETAILS_EVENT, mMoviesDataModel);
+    }
 
     private void fetchFavoriteMoviesFromDb() {
 
@@ -246,6 +263,8 @@ public class PopularMoviesFragment extends Fragment implements UpdateViewListene
         if (loader.getId() == FavoriteMoviesTable.QUERY_ID) {
             mFavoriteMovieCursorAdapter.swapCursor(cursor);
             mPopularMoviesGridView.setAdapter(mFavoriteMovieCursorAdapter);
+            mCurrentSortChoiceStr = Utils.getResourceString(mContext, R.string.favorite_movies_title_text);
+            getActivity().setTitle(mCurrentSortChoiceStr);
         }
     }
 
