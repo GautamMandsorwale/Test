@@ -42,22 +42,4 @@ public class PopularMovieConstants {
     public static final String IS_YOUR_FAVORITE = "Is your Favorite";
 
 
-    //    "adult":false,
-//            "backdrop_path":"/9X3cDZb4GYGQeOnZHLwMcCFz2Ro.jpg",
-//            "genre_ids":[
-//            18,
-//            878
-//            ],
-//            "id":264660,
-//            "original_language":"en",
-//            "original_title":"Ex Machina",
-//            "overview":"Caleb, a 24 year old coder at the world's largest internet company, wins a competition to spend a week at a private mountain retreat belonging to Nathan, the reclusive CEO of the company. But when Caleb arrives at the remote location he finds that he will have to participate in a strange and fascinating experiment in which he must interact with the world's first true artificial intelligence, housed in the body of a beautiful robot girl.",
-//            "release_date":"2015-01-21",
-//            "poster_path":"/btbRB7BrD887j5NrvjxceRDmaot.jpg",
-//            "popularity":16.118286,
-//            "title":"Ex Machina",
-//            "video":false,
-//            "vote_average":7.7,
-//            "vote_count":524
-
 }

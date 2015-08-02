@@ -30,21 +30,6 @@ public class NetworkUtil {
         return TYPE_NOT_CONNECTED;
     }
 
-    /*public static boolean getConnectivityStatusString(Context context) {
-        boolean mConnectivityStatus = false;
-        int conn = NetworkUtil.getConnectivityStatus(context);
-        if (conn == NetworkUtil.TYPE_WIFI) {
-            mNetworkType = "Wifi enabled";
-            mConnectivityStatus = true;
-        } else if (conn == NetworkUtil.TYPE_MOBILE) {
-            mNetworkType = "Mobile data enabled";
-            mConnectivityStatus = true;
-        } else if (conn == NetworkUtil.TYPE_NOT_CONNECTED) {
-            mNetworkType = "Not connected to Internet";
-        }
-        return mConnectivityStatus;
-    }*/
-
     public static String getmNetworkType() {
         return mNetworkType;
     }

@@ -64,12 +64,6 @@ public class MovieJsonParser {
         try {
             mResponseJsonObject = new JSONObject(response);
 
-//                {
-//                    "id":211672, "results":[{
-//                    "id":"54badb64c3a3684046001c73", "iso_639_1":"en", "key":"eisKxhjBnZ0", "name":
-//                    "Minions Official Trailer #1 (2015) - Despicable Me Prequel HD", "site":
-//                    "YouTube", "size":720, "type":"Trailer"
-//                }
             mMoviesJsonArray = mResponseJsonObject.getJSONArray(PopularMovieConstants.KEY_MOVIE_RESULTS_ARRAY);
             if (mMoviesJsonArray != null) {
                 mMoviesDataArrayList = new ArrayList<>();
@@ -96,29 +90,5 @@ public class MovieJsonParser {
         return mMoviesDataArrayList;
 
     }
-
-//    public static JSONArray createFavoriteMovieJsonArray(ArrayList<MoviesDataModel> moviesDataModelArray){
-//
-//        for (int i= 0 ; i<mMoviesDataArrayList)
-//
-//        try {
-//            mFavoriteMovieJsonArray.put(new JSONObject(mFavoriteMovieStr));
-//        } catch (JSONException e) {
-//            updateView(null, false);
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    mFavoriteMoviesJsonObj = new JSONObject();
-//    try {
-//        mFavoriteMoviesJsonObj.put(PopularMovieConstants.KEY_MOVIE_RESULTS_ARRAY, mFavoriteMovieJsonArray);
-//    } catch (JSONException e) {
-//        e.printStackTrace();
-//    }
-//}
-//
-//        return null;
-//    }
-
 
 }
