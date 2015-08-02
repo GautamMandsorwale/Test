@@ -45,6 +45,7 @@ public class PopularMoviesDbHelper extends SQLiteOpenHelper {
 
     private void createFavoriteMoviesTable(final SQLiteDatabase sqliteDb) {
         sqliteDb.execSQL("CREATE TABLE " + FavoriteMoviesTable.TABLE + " (" + FavoriteMoviesTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + FavoriteMoviesTable.FAVORITE_MOVIES_ID + " INTEGER," + FavoriteMoviesTable.FAVORITE_MOVIES_DATA + " TEXT);");
+//        sqliteDb.execSQL("CREATE TABLE " + FavoriteMoviesTable.TABLE + " (" + FavoriteMoviesTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + FavoriteMoviesTable.FAVORITE_MOVIES_ID + " INTEGER," + FavoriteMoviesTable.FAVORITE_MOVIES_DATA + " TEXT," + FavoriteMoviesTable.FAVORITE_MOVIES_THUMBNAIL_BITMAP + " BLOB);");
 
     }
 

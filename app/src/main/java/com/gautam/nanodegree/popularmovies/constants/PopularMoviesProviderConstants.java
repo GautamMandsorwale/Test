@@ -16,7 +16,9 @@ public class PopularMoviesProviderConstants {
         public static final String _ID = "_id"; // Primary key
         public static final String FAVORITE_MOVIES_ID = "favorite_movies_id"; // movie id
         public static final String FAVORITE_MOVIES_DATA = "favorite_movies_data"; // movie data obj
+//		public static final String FAVORITE_MOVIES_THUMBNAIL_BITMAP = "favorite_movies_thumbnail"; // movie thumbnail
 		public static final int QUERY_ID = 0;
+
 
 	/*	private boolean mIsMovieAdult = false;
         private String mMovieBackdropPath = null;

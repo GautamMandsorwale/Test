@@ -22,6 +22,7 @@ import com.gautam.nanodegree.popularmovies.core.HttpRequestTaskController;
 import com.gautam.nanodegree.popularmovies.core.MoviesDataModel;
 import com.gautam.nanodegree.popularmovies.core.UpdateViewListener;
 import com.gautam.nanodegree.popularmovies.db.PopularMoviesDbWrapper;
+import com.gautam.nanodegree.utils.NetworkUtil;
 import com.gautam.nanodegree.utils.Utils;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -40,6 +41,7 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
     private ImageView mPopularMovieThumbnailImgView = null;
     private ListView mPopularMoviesTrailersListView = null;
     private Button mMarkFavoriteBtn = null;
+    private boolean mIsNetworkConnected = false;
 
 
     public static PopularMoviesDetailFragment newInstance(Context context, Object data) {
@@ -58,7 +60,15 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
         Bundle mBundle = getArguments();
         if (mBundle != null) {
             mMoviesDataModel = mBundle.getParcelable(PopularMovieConstants.KEY_MOVIE_DATA_BUNDLE);
-            new HttpRequestTaskController(mMoviesDataModel.getMovieId(), PopularMoviesDetailFragment.this).executeHttpRequest(PopularMovieConstants.REQUEST_TYPE_MOVIE_TRAILERS);
+
+            if (NetworkUtil.getConnectivityStatus(mContext) == 0) {
+                mIsNetworkConnected = false;
+                Utils.getToast(mContext, mContext.getString(R.string.not_connected_to_internet_text)).show();
+            } else {
+                mIsNetworkConnected = true;
+                new HttpRequestTaskController(mMoviesDataModel.getMovieId(), PopularMoviesDetailFragment.this).executeHttpRequest(PopularMovieConstants.REQUEST_TYPE_MOVIE_TRAILERS);
+            }
+
         }
     }
 
@@ -74,6 +84,14 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
         mPopularMoviesTrailersListView = (ListView) mRootView.findViewById(R.id.movieTrailersListViewId);
         mMarkFavoriteBtn = (Button) mRootView.findViewById(R.id.markFavoriteBtnId);
 
+        if (!mIsNetworkConnected) {
+            if (mMoviesDataModel.isMovieFavorite()) {
+                mMarkFavoriteBtn.setEnabled(false);
+                mMarkFavoriteBtn.setText(PopularMovieConstants.IS_YOUR_FAVORITE);
+            } else {
+                mMarkFavoriteBtn.setEnabled(true);
+            }
+        }
         mMarkFavoriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,7 +133,7 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
         });
 
         if (mMoviesDataModel != null) {
-            showMovieDetais(mMoviesDataModel);
+            showMovieDetails(mMoviesDataModel);
         }
 
 
@@ -140,14 +158,14 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
         }
     }
 
-    public void showMovieDetais(MoviesDataModel mMoviesDataModel) {
+    public void showMovieDetails(MoviesDataModel mMoviesDataModel) {
         mPopularMovieTitleTxtView.setText(mMoviesDataModel.getMovieOriginalTitle());
         mPopularMovieReleaseDateTxtView.setText(mMoviesDataModel.getMovieReleaseDate());
         mPopularMovieRatingTxtView.setText(String.valueOf(mMoviesDataModel.getMovieVoteAverage()) + PopularMovieConstants.POPULAR_MOVIES_RATING_TOTAL);
         mPopularMovieOverviewTxtView.setText(mMoviesDataModel.getMovieOverview());
 
         String mPosterThumbnailUrlStr = NetworkConstants.MOVIE_POSTER_IMAGE_BASE_URL + NetworkConstants.MOVIE_POSTER_THUMBNAIL_PHONE_SIZE;
-        Picasso.with(mContext).load(mPosterThumbnailUrlStr + mMoviesDataModel.getMoviePosterPath()).into(mPopularMovieThumbnailImgView);
+        Picasso.with(mContext).load(mPosterThumbnailUrlStr + mMoviesDataModel.getMoviePosterPath()).into(mPopularMovieThumbnailImgView);//.into(mTarget);
     }
 
     private void saveFavoriteMovieToDb() {

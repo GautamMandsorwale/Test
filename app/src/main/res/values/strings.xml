@@ -42,6 +42,7 @@
     <string name="action_sort_favorite_movies_text">Favorite Movies</string>
     <string name="not_connected_to_internet_text">Not Connected to Internet.</string>
     <string name="marked_as_favorite_movie_text">Marked as Favorite</string>
+    <string name="no_favorite_movies_text">You have no Favorite Movies!</string>
     <!--Popular Movies texts-->
 
 </resources>
