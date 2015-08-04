@@ -157,25 +157,28 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Inflate menu resource file.
-        inflater.inflate(R.menu.share_menu, menu);
-        // Locate MenuItem with ShareActionProvider
-        MenuItem item = menu.findItem(R.id.menu_item_share);
+        if (mShareActionProvider == null) {
+            // Inflate menu resource file.
+            inflater.inflate(R.menu.share_menu, menu);
+            // Locate MenuItem with ShareActionProvider
+            MenuItem item = menu.findItem(R.id.menu_item_share);
 
-        // Fetch and store ShareActionProvider
-//        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-
-        // Connect the dots: give the ShareActionProvider its Share Intent
-        if (mShareActionProvider != null && mMoviesDataModel != null) {
-            Intent mShareIntent = new Intent(Intent.ACTION_VIEW);
-            mShareIntent.setData(Uri.parse(PopularMovieConstants.YOUTUBE_VIDEO_URL + mMoviesDataModel.getMovieTrailerKey()));
-            if (mShareActionProvider != null) {
-                mShareActionProvider.setShareIntent(mShareIntent);
-            }
-            mShareActionProvider.setShareIntent(mShareIntent);
+            // Fetch and store ShareActionProvider
+            mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
         }
 
+    }
+
+    // Call to update the share intent
+    private void setShareIntent(String data) {
+        Intent mShareIntent = new Intent(Intent.ACTION_SEND);
+        mShareIntent.setType("text/plain");
+        mShareIntent.putExtra(Intent.EXTRA_TEXT, mContext.getString(R.string.trailer_share_msg_text) + data);
+//        Intent mShareIntent = new Intent(Intent.ACTION_VIEW);
+//        mShareIntent.setData(Uri.parse(data));
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(mShareIntent);
+        }
     }
 
     public void showMovieDetails(MoviesDataModel mMoviesDataModel) {
@@ -225,6 +228,8 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
             } else {
                 mMarkFavoriteBtn.setEnabled(true);
             }
+
+            setShareIntent((PopularMovieConstants.YOUTUBE_VIDEO_URL + ((ArrayList<MoviesDataModel>) data).get(0).getMovieTrailerKey()));
 
         } else {
             Utils.getToast(mContext, mContext.getString(R.string.http_error_msg_text)).show();

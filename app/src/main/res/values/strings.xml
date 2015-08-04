@@ -49,6 +49,7 @@
     <string name="no_movie_reviews_yet">No Reviews</string>
     <string name="movie_reviewer_name_text"><b>Reviewer : </b></string>
     <string name="share_text">Share</string>
+    <string name="trailer_share_msg_text">Hey! Check this trailer... \n</string>
     <!--Popular Movies texts-->
 
 </resources>

@@ -8,7 +8,8 @@ public class NetworkConstants {
     public static final String MOVIES_DB_API_KEY = "";
     public static final String MOVIES_HTTP_URL_SORT_POPULARITY_DESC = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
     public static final String MOVIES_HTTP_URL_SORT_HIGHEST_RATED_DESC = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_count.desc&api_key=";
-    public static final String POPULAR_MOVIE_TRAILERS= "http://api.themoviedb.org/3/movie/id/videos?api_key=";
+    public static final String POPULAR_MOVIE_TRAILERS = "http://api.themoviedb.org/3/movie/id/videos?api_key=";
+    public static final String POPULAR_MOVIE_REVIEWS = "http://api.themoviedb.org/3/movie/id?api_key=" + MOVIES_DB_API_KEY + "&append_to_response=reviews";
     public static final String MOVIE_POSTER_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/";
     public static final String MOVIE_POSTER_IMAGE_PHONE_SIZE = "w500";
     public static final String MOVIE_POSTER_THUMBNAIL_PHONE_SIZE = "w185";
