@@ -5,5 +5,5 @@ package com.gautam.nanodegree.popularmovies.core;
  */
 public interface UpdateViewListener {
 
-    void updateView(Object data, boolean shouldUpdate);
+    void updateView(Object data, boolean shouldUpdate, int requestType);
 }

@@ -1,6 +1,7 @@
 package com.gautam.nanodegree.popularmovies.ui;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class PopularMoviesFragment extends Fragment implements UpdateViewListene
     private FragmentChangeListener mFragmentChangeListener = null;
     public static String mCurrentSortChoiceStr = null;
     private FavoriteMovieCursorAdapter mFavoriteMovieCursorAdapter = null;
+    private ProgressDialog mProgressDialog = null;
 
     public static PopularMoviesFragment newInstance(Context context) {
         mContext = context;
@@ -56,8 +58,9 @@ public class PopularMoviesFragment extends Fragment implements UpdateViewListene
             handleNoInternetConnection();
         } else {
             mCurrentSortChoiceStr = Utils.getResourceString(mContext, R.string.popular_movies_title_text);
-            getActivity().setTitle(mCurrentSortChoiceStr);
-            new HttpRequestTaskController(PopularMoviesFragment.this).executeHttpRequest(PopularMovieConstants.REQUEST_TYPE_MOST_POPULAR);
+            handleSortChoice(PopularMovieConstants.REQUEST_TYPE_MOST_POPULAR);
+//            getActivity().setTitle(mCurrentSortChoiceStr);
+//            new HttpRequestTaskController(PopularMoviesFragment.this).executeHttpRequest(PopularMovieConstants.REQUEST_TYPE_MOST_POPULAR);
         }
     }
 
@@ -73,7 +76,7 @@ public class PopularMoviesFragment extends Fragment implements UpdateViewListene
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.sort_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -94,15 +97,15 @@ public class PopularMoviesFragment extends Fragment implements UpdateViewListene
                 case R.id.popularMoviesMenuId:
                     if (canSort(Utils.getResourceString(mContext, R.string.popular_movies_title_text))) {
                         mCurrentSortChoiceStr = Utils.getResourceString(mContext, R.string.popular_movies_title_text);
-                        getActivity().setTitle(mCurrentSortChoiceStr);
-                        new HttpRequestTaskController(this).executeHttpRequest(PopularMovieConstants.REQUEST_TYPE_MOST_POPULAR);
+                        handleSortChoice(PopularMovieConstants.REQUEST_TYPE_MOST_POPULAR);
+//                        new HttpRequestTaskController(this).executeHttpRequest(PopularMovieConstants.REQUEST_TYPE_MOST_POPULAR);
                     }
                     return true;
                 case R.id.highestRatedMoviesMenuId:
                     if (canSort(Utils.getResourceString(mContext, R.string.highest_rated_movies_title_text))) {
                         mCurrentSortChoiceStr = Utils.getResourceString(mContext, R.string.highest_rated_movies_title_text);
-                        getActivity().setTitle(mCurrentSortChoiceStr);
-                        new HttpRequestTaskController(this).executeHttpRequest(PopularMovieConstants.REQUEST_TYPE_HIGHEST_RATED);
+                        handleSortChoice(PopularMovieConstants.REQUEST_TYPE_HIGHEST_RATED);
+//                        new HttpRequestTaskController(this).executeHttpRequest(PopularMovieConstants.REQUEST_TYPE_HIGHEST_RATED);
                     }
                     return true;
                 case R.id.favoriteMoviesMenuId:
@@ -117,6 +120,12 @@ public class PopularMoviesFragment extends Fragment implements UpdateViewListene
                     return super.onOptionsItemSelected(item);
             }
         }
+    }
+
+    private void handleSortChoice(int sortChoice) {
+        getActivity().setTitle(mCurrentSortChoiceStr);
+        showProgressDialog();
+        new HttpRequestTaskController(this).executeHttpRequest(sortChoice);
     }
 
 
@@ -176,6 +185,18 @@ public class PopularMoviesFragment extends Fragment implements UpdateViewListene
         return mCanSort;
     }
 
+    private void showProgressDialog() {
+        mProgressDialog = new ProgressDialog(mContext);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setMessage(Utils.getResourceString(mContext, R.string.please_wait_msg_text));
+        mProgressDialog.show();
+    }
+
+    private void dismissProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
+    }
+
 
     private void handleGridItemClick(AdapterView<?> parent, int position) {
 
@@ -206,7 +227,8 @@ public class PopularMoviesFragment extends Fragment implements UpdateViewListene
     }
 
     @Override
-    public void updateView(Object data, boolean shouldUpdate) {
+    public void updateView(Object data, boolean shouldUpdate, int requestType) {
+        dismissProgressDialog();
         if (shouldUpdate) {
             mPopularMoviesGridView.setAdapter(new MoviesGridAdapter(mContext, data));
         } else {

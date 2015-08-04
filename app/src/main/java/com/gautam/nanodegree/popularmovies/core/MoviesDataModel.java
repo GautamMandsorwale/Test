@@ -32,6 +32,8 @@ public class MoviesDataModel implements Parcelable {
     private int mMovieTrailerSize = -1;
     private String mMovieTrailerType = null;
     private boolean mIsMovieFavorite = false;
+    private String mMovieReviewAuthor = null;
+    private String mMovieReviewContent = null;
 
     private ArrayList<MoviesDataModel> mMovieTrailersArr = null;
 
@@ -208,6 +210,7 @@ public class MoviesDataModel implements Parcelable {
     public void setMovieTrailerId(String mMovieTrailerId) {
         this.mMovieTrailerId = mMovieTrailerId;
     }
+
     public ArrayList<MoviesDataModel> getMovieTrailersArr() {
         return mMovieTrailersArr;
     }
@@ -222,6 +225,22 @@ public class MoviesDataModel implements Parcelable {
 
     public void setIsMovieFavorite(boolean mIsMovieFavorite) {
         this.mIsMovieFavorite = mIsMovieFavorite;
+    }
+
+    public String getMovieReviewContent() {
+        return mMovieReviewContent;
+    }
+
+    public void setMovieReviewContent(String mMovieReviewContent) {
+        this.mMovieReviewContent = mMovieReviewContent;
+    }
+
+    public String getMovieReviewAuthor() {
+        return mMovieReviewAuthor;
+    }
+
+    public void setMovieReviewAuthor(String mMovieReviewAuthor) {
+        this.mMovieReviewAuthor = mMovieReviewAuthor;
     }
 
     @Override
@@ -253,6 +272,8 @@ public class MoviesDataModel implements Parcelable {
         dest.writeInt(this.mMovieTrailerSize);
         dest.writeString(this.mMovieTrailerType);
         dest.writeByte(mIsMovieFavorite ? (byte) 1 : (byte) 0);
+        dest.writeString(this.mMovieReviewAuthor);
+        dest.writeString(this.mMovieReviewContent);
         dest.writeTypedList(mMovieTrailersArr);
     }
 
@@ -279,6 +300,8 @@ public class MoviesDataModel implements Parcelable {
         this.mMovieTrailerSize = in.readInt();
         this.mMovieTrailerType = in.readString();
         this.mIsMovieFavorite = in.readByte() != 0;
+        this.mMovieReviewAuthor = in.readString();
+        this.mMovieReviewContent = in.readString();
         this.mMovieTrailersArr = in.createTypedArrayList(MoviesDataModel.CREATOR);
     }
 

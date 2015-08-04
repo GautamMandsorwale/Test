@@ -4,24 +4,25 @@
     android:layout_height="200dp"
     android:layout_margin="30dp"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:background="@android:drawable/ic_media_play"
-        android:scaleType="fitXY" />
+    android:orientation="vertical">
 
 
     <TextView
-        android:id="@+id/movieTrailerNameTxtId"
+        android:id="@+id/movieReviewerNameTxtId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:text="@string/trailer_name_text"
+        android:layout_marginLeft="5dp"
         android:textColor="@color/abc_primary_text_disable_only_material_light"
         android:textSize="16sp"
-        android:textStyle="bold" />
+       />
+
+    <TextView
+        android:id="@+id/movieReviewTxtId"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/abc_primary_text_disable_only_material_light"
+        android:textSize="16sp"
+         />
 
 </LinearLayout>

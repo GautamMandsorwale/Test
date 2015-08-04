@@ -5,7 +5,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,17 +37,18 @@ import java.util.ArrayList;
 /**
  * Created by Gautam on 09/07/15.
  */
-public class PopularMoviesDetailFragment extends Fragment implements UpdateViewListener {
+public class PopularMoviesDetailFragment extends Fragment implements UpdateViewListener, ListView.OnTouchListener {
 
     private static Context mContext = null;
     private MoviesDataModel mMoviesDataModel = null;
     private MoviesDataModel mMoviesDataModel_trailers = null;
-    private TextView mPopularMovieTitleTxtView, mPopularMovieReleaseDateTxtView, mPopularMovieRatingTxtView, mPopularMovieOverviewTxtView = null;
+    private TextView mPopularMovieTitleTxtView, mPopularMovieReleaseDateTxtView, mPopularMovieRatingTxtView, mPopularMovieOverviewTxtView, mPopularMovieReviewTxtView = null;
     private ImageView mPopularMovieThumbnailImgView = null;
     private ListView mPopularMoviesTrailersListView = null;
+    private ListView mPopularMoviesReviewsListView = null;
     private Button mMarkFavoriteBtn = null;
     private boolean mIsNetworkConnected = false;
-
+    private ShareActionProvider mShareActionProvider;
 
     public static PopularMoviesDetailFragment newInstance(Context context, Object data) {
         mContext = context;
@@ -57,6 +63,7 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         Bundle mBundle = getArguments();
         if (mBundle != null) {
             mMoviesDataModel = mBundle.getParcelable(PopularMovieConstants.KEY_MOVIE_DATA_BUNDLE);
@@ -67,6 +74,7 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
             } else {
                 mIsNetworkConnected = true;
                 new HttpRequestTaskController(mMoviesDataModel.getMovieId(), PopularMoviesDetailFragment.this).executeHttpRequest(PopularMovieConstants.REQUEST_TYPE_MOVIE_TRAILERS);
+                new HttpRequestTaskController(mMoviesDataModel.getMovieId(), PopularMoviesDetailFragment.this).executeHttpRequest(PopularMovieConstants.REQUEST_TYPE_MOVIE_REVIEWS);
             }
 
         }
@@ -80,8 +88,10 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
         mPopularMovieReleaseDateTxtView = (TextView) mRootView.findViewById(R.id.popularMovieReleaseDateTextViewId);
         mPopularMovieRatingTxtView = (TextView) mRootView.findViewById(R.id.popularMovieRatingTxtViewId);
         mPopularMovieOverviewTxtView = (TextView) mRootView.findViewById(R.id.popularMovieOverviewTextViewId);
+        mPopularMovieReviewTxtView = (TextView) mRootView.findViewById(R.id.popularMovieReviewTxtId);
         mPopularMovieThumbnailImgView = (ImageView) mRootView.findViewById(R.id.popularMovieThumbnailImgViewId);
         mPopularMoviesTrailersListView = (ListView) mRootView.findViewById(R.id.movieTrailersListViewId);
+        mPopularMoviesReviewsListView = (ListView) mRootView.findViewById(R.id.movieReviewsListViewId);
         mMarkFavoriteBtn = (Button) mRootView.findViewById(R.id.markFavoriteBtnId);
 
         if (!mIsNetworkConnected) {
@@ -100,27 +110,8 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
             }
         });
 
-        mPopularMoviesTrailersListView.setOnTouchListener(new ListView.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int action = event.getAction();
-                switch (action) {
-                    case MotionEvent.ACTION_DOWN:
-                        // Disallow ScrollView to intercept touch events.
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        // Allow ScrollView to intercept touch events.
-                        v.getParent().requestDisallowInterceptTouchEvent(false);
-                        break;
-                }
-
-                // Handle ListView touch events.
-                v.onTouchEvent(event);
-                return true;
-            }
-        });
+        mPopularMoviesTrailersListView.setOnTouchListener(this);
+        mPopularMoviesReviewsListView.setOnTouchListener(this);
 
         mPopularMoviesTrailersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -141,6 +132,12 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        setHasOptionsMenu(false);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         if (getResources().getBoolean(R.bool.isDeviceTypePhone)) {
@@ -156,6 +153,29 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
             getTargetFragment().setMenuVisibility(false);
             getActivity().setTitle(Utils.getResourceString(mContext, R.string.movie_details_title_text));
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate menu resource file.
+        inflater.inflate(R.menu.share_menu, menu);
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+
+        // Fetch and store ShareActionProvider
+//        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+
+        // Connect the dots: give the ShareActionProvider its Share Intent
+        if (mShareActionProvider != null && mMoviesDataModel != null) {
+            Intent mShareIntent = new Intent(Intent.ACTION_VIEW);
+            mShareIntent.setData(Uri.parse(PopularMovieConstants.YOUTUBE_VIDEO_URL + mMoviesDataModel.getMovieTrailerKey()));
+            if (mShareActionProvider != null) {
+                mShareActionProvider.setShareIntent(mShareIntent);
+            }
+            mShareActionProvider.setShareIntent(mShareIntent);
+        }
+
     }
 
     public void showMovieDetails(MoviesDataModel mMoviesDataModel) {
@@ -180,8 +200,22 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
 
     }
 
-    @Override
-    public void updateView(Object data, boolean shouldUpdate) {
+    private void updateReviewsList(Object data, boolean shouldUpdate) {
+        if (shouldUpdate) {
+            if (((ArrayList<MoviesDataModel>) data).size() == 0) {
+                mPopularMovieReviewTxtView.setText(R.string.no_movie_reviews_yet);
+                mPopularMoviesReviewsListView.setVisibility(View.GONE);
+            } else {
+                mPopularMoviesReviewsListView.setAdapter(new MovieReviewsAdapter(mContext, data));
+            }
+        } else {
+            mPopularMovieReviewTxtView.setText(R.string.no_movie_reviews_yet);
+            mPopularMoviesReviewsListView.setVisibility(View.GONE);
+//            Utils.getToast(mContext, mContext.getString(R.string.http_error_msg_text)).show();
+        }
+    }
+
+    private void updateTrailersList(Object data, boolean shouldUpdate) {
         if (shouldUpdate) {
             mMoviesDataModel.setMovieTrailersArr((ArrayList<MoviesDataModel>) data);
             mPopularMoviesTrailersListView.setAdapter(new MovieTrailersAdapter(mContext, data));
@@ -194,6 +228,47 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
 
         } else {
             Utils.getToast(mContext, mContext.getString(R.string.http_error_msg_text)).show();
+        }
+    }
+
+    /**
+     * Called when a touch event is dispatched to a view. This allows listeners to
+     * get a chance to respond before the target view.
+     *
+     * @param v     The view the touch event has been dispatched to.
+     * @param event The MotionEvent object containing full information about
+     *              the event.
+     * @return True if the listener has consumed the event, false otherwise.
+     */
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        int action = event.getAction();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                // Disallow ScrollView to intercept touch events.
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                break;
+
+            case MotionEvent.ACTION_UP:
+                // Allow ScrollView to intercept touch events.
+                v.getParent().requestDisallowInterceptTouchEvent(false);
+                break;
+        }
+
+        // Handle ListView touch events.
+        v.onTouchEvent(event);
+        return true;
+    }
+
+    @Override
+    public void updateView(Object data, boolean shouldUpdate, int requestType) {
+        switch (requestType) {
+            case PopularMovieConstants.REQUEST_TYPE_MOVIE_TRAILERS:
+                updateTrailersList(data, shouldUpdate);
+                break;
+            case PopularMovieConstants.REQUEST_TYPE_MOVIE_REVIEWS:
+                updateReviewsList(data, shouldUpdate);
+                break;
         }
     }
 }
