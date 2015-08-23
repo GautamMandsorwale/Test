@@ -14,6 +14,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Gautam on 27/06/15.
  */
@@ -48,11 +51,9 @@ public class MoviesGridAdapter extends BaseAdapter {
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
 
-            mViewHolder = new ViewHolder();
-
             convertView = mLayoutInflater.inflate(R.layout.popular_movies_grid_item, null);
-            mViewHolder.mGridItemImgView = (ImageView) convertView.findViewById(R.id.popularMoviesGridItemImgViewId);
 
+            mViewHolder = new ViewHolder(convertView);
             convertView.setTag(mViewHolder);
 
         } else {
@@ -66,6 +67,11 @@ public class MoviesGridAdapter extends BaseAdapter {
     }
 
     public class ViewHolder {
+        @Bind(R.id.popularMoviesGridItemImgViewId)
         ImageView mGridItemImgView;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

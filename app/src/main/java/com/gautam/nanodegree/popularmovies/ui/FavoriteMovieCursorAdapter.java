@@ -2,7 +2,6 @@ package com.gautam.nanodegree.popularmovies.ui;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,9 @@ import com.gautam.nanodegree.popularmovies.core.MoviesDataModel;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Gautam on 22/07/15.
  */
@@ -23,7 +25,7 @@ public class FavoriteMovieCursorAdapter extends CursorAdapter {
     private LayoutInflater mLayoutInflater = null;
     private Context mContext;
 
-   
+
     public FavoriteMovieCursorAdapter(Context context) {
         super(context, null, 0);
         mContext = context;
@@ -51,8 +53,7 @@ public class FavoriteMovieCursorAdapter extends CursorAdapter {
         // allows bindView() to retrieve stored references instead of calling
         // findViewById for
         // each instance of the layout.
-        final ViewHolder mViewHolder = new ViewHolder();
-        mViewHolder.mGridItemImgView = (ImageView) mConvertView.findViewById(R.id.popularMoviesGridItemImgViewId);
+        final ViewHolder mViewHolder = new ViewHolder(mConvertView);
 
         // Stores the resourceHolder instance in mConvertView. This makes
         // resourceHolder
@@ -111,7 +112,12 @@ public class FavoriteMovieCursorAdapter extends CursorAdapter {
      * inflates the layout, instead of calling findViewById in each iteration of
      * bindView.
      */
-    private class ViewHolder {
+    class ViewHolder {
+        @Bind(R.id.popularMoviesGridItemImgViewId)
         ImageView mGridItemImgView;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

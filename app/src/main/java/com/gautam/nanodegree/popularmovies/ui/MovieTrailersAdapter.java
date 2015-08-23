@@ -12,6 +12,9 @@ import com.gautam.nanodegree.popularmovies.core.MoviesDataModel;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Gautam on 19/07/15.
  */
@@ -27,9 +30,9 @@ public class MovieTrailersAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        if(mMoviesDataArrayList!=null){
+        if (mMoviesDataArrayList != null) {
             return mMoviesDataArrayList.size();
-        }else{
+        } else {
             return 0;
         }
 
@@ -51,11 +54,9 @@ public class MovieTrailersAdapter extends BaseAdapter {
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
 
-            mViewHolder = new ViewHolder();
-
             convertView = mLayoutInflater.inflate(R.layout.popular_movie_trailers_list_row, null);
-            mViewHolder.mMovieTrailerTxtView = (TextView) convertView.findViewById(R.id.movieTrailerNameTxtId);
 
+            mViewHolder = new ViewHolder(convertView);
             convertView.setTag(mViewHolder);
 
         } else {
@@ -68,6 +69,11 @@ public class MovieTrailersAdapter extends BaseAdapter {
     }
 
     public class ViewHolder {
+        @Bind(R.id.movieTrailerNameTxtId)
         TextView mMovieTrailerTxtView;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

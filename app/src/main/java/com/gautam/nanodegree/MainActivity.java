@@ -1,10 +1,13 @@
 package com.gautam.nanodegree;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.gautam.nanodegree.popularmovies.constants.PopularMovieConstants;
 import com.gautam.nanodegree.popularmovies.db.PopularMoviesDbHelper;
@@ -12,6 +15,9 @@ import com.gautam.nanodegree.popularmovies.ui.PopularMoviesDetailFragment;
 import com.gautam.nanodegree.popularmovies.ui.PopularMoviesFragment;
 import com.gautam.nanodegree.ui.HomeFragment;
 import com.gautam.nanodegree.utils.Utils;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
 public class MainActivity extends ActionBarActivity implements FragmentChangeListener {
@@ -21,33 +27,33 @@ public class MainActivity extends ActionBarActivity implements FragmentChangeLis
     private PopularMoviesFragment mPopularMoviesFragment = null;
     private PopularMoviesDbHelper mPopularMoviesDbHelper = null;
 
+    // ButterKnife
+    @Nullable
+    @Bind(R.id.popularMovieLayoutId)
+    LinearLayout mPopularMoviesLayout = null;
+    @Bind(R.id.fragmentContainerId)
+    FrameLayout mFragmentContainerLayout = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // ButterKnife
+        ButterKnife.bind(this);
+
         setTitle(Utils.getResourceString(this, R.string.welcome_title_text));
 
         mPopularMoviesDbHelper = new PopularMoviesDbHelper(this);
 
-        loadHomeFragment();
+        loadPopularMoviesFragment();
     }
 
     @Override
     public void onBackPressed() {
 
-        if (!getResources().getBoolean(R.bool.isDeviceTypePhone)) {
-            if (findViewById(R.id.popularMovieLayoutId).getVisibility() == View.VISIBLE) {
-                findViewById(R.id.popularMovieLayoutId).setVisibility(View.GONE);
-                changeHomeFragmentVisibility(true);
-            } else {
-                finish();
-            }
-
-        } else {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
     }
 
     @Override
@@ -79,9 +85,8 @@ public class MainActivity extends ActionBarActivity implements FragmentChangeLis
         mPopularMoviesFragment = PopularMoviesFragment.newInstance(this);
         if (getResources().getBoolean(R.bool.isDeviceTypePhone)) {
             mFragmentTransaction.replace(R.id.fragmentContainerId, mPopularMoviesFragment, PopularMovieConstants.POPULAR_MOVIES_FRAGMENT_TAG);
-            mFragmentTransaction.addToBackStack(null);
         } else {
-            findViewById(R.id.popularMovieLayoutId).setVisibility(View.VISIBLE);
+            mPopularMoviesLayout.setVisibility(View.VISIBLE);
             changeHomeFragmentVisibility(false);
             mFragmentTransaction.replace(R.id.popularMovieFragmentContainerId, mPopularMoviesFragment, PopularMovieConstants.POPULAR_MOVIES_FRAGMENT_TAG);
         }
@@ -99,7 +104,7 @@ public class MainActivity extends ActionBarActivity implements FragmentChangeLis
             mPopularMoviesDetailFragment.setTargetFragment(mPopularMoviesFragment, 1);
             mFragmentTransaction.addToBackStack(null);
         } else {
-            findViewById(R.id.popularMovieLayoutId).setVisibility(View.VISIBLE);
+            mPopularMoviesLayout.setVisibility(View.VISIBLE);
             changeHomeFragmentVisibility(false);
             mFragmentTransaction.add(R.id.popularMovieDetailFragmentContainerId, mPopularMoviesDetailFragment, PopularMovieConstants.POPULAR_MOVIES_DETAILS_FRAGMENT_TAG);
         }
@@ -110,11 +115,17 @@ public class MainActivity extends ActionBarActivity implements FragmentChangeLis
 
     public void changeHomeFragmentVisibility(boolean showView) {
         if (showView) {
-            findViewById(R.id.fragmentContainerId).setVisibility(View.VISIBLE);
+            mFragmentContainerLayout.setVisibility(View.VISIBLE);
             setTitle(Utils.getResourceString(this, R.string.welcome_title_text));
         } else {
-            findViewById(R.id.fragmentContainerId).setVisibility(View.GONE);
+            mFragmentContainerLayout.setVisibility(View.GONE);
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
     }
 }

@@ -34,6 +34,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
+
 /**
  * Created by Gautam on 09/07/15.
  */
@@ -42,11 +47,26 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
     private static Context mContext = null;
     private MoviesDataModel mMoviesDataModel = null;
     private MoviesDataModel mMoviesDataModel_trailers = null;
-    private TextView mPopularMovieTitleTxtView, mPopularMovieReleaseDateTxtView, mPopularMovieRatingTxtView, mPopularMovieOverviewTxtView, mPopularMovieReviewTxtView = null;
-    private ImageView mPopularMovieThumbnailImgView = null;
-    private ListView mPopularMoviesTrailersListView = null;
-    private ListView mPopularMoviesReviewsListView = null;
-    private Button mMarkFavoriteBtn = null;
+
+    @Bind(R.id.popularMovieTitleTxtViewId)
+    TextView mPopularMovieTitleTxtView;
+    @Bind(R.id.popularMovieReleaseDateTextViewId)
+    TextView mPopularMovieReleaseDateTxtView;
+    @Bind(R.id.popularMovieRatingTxtViewId)
+    TextView mPopularMovieRatingTxtView;
+    @Bind(R.id.popularMovieOverviewTextViewId)
+    TextView mPopularMovieOverviewTxtView;
+    @Bind(R.id.popularMovieReviewTxtId)
+    TextView mPopularMovieReviewTxtView;
+    @Bind(R.id.popularMovieThumbnailImgViewId)
+    ImageView mPopularMovieThumbnailImgView = null;
+    @Bind(R.id.movieTrailersListViewId)
+    ListView mPopularMoviesTrailersListView = null;
+    @Bind(R.id.movieReviewsListViewId)
+    ListView mPopularMoviesReviewsListView = null;
+    @Bind(R.id.markFavoriteBtnId)
+    Button mMarkFavoriteBtn = null;
+
     private boolean mIsNetworkConnected = false;
     private ShareActionProvider mShareActionProvider;
 
@@ -84,15 +104,7 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mRootView = inflater.inflate(R.layout.fragment_popular_movies_details, null);
 
-        mPopularMovieTitleTxtView = (TextView) mRootView.findViewById(R.id.popularMovieTitleTxtViewId);
-        mPopularMovieReleaseDateTxtView = (TextView) mRootView.findViewById(R.id.popularMovieReleaseDateTextViewId);
-        mPopularMovieRatingTxtView = (TextView) mRootView.findViewById(R.id.popularMovieRatingTxtViewId);
-        mPopularMovieOverviewTxtView = (TextView) mRootView.findViewById(R.id.popularMovieOverviewTextViewId);
-        mPopularMovieReviewTxtView = (TextView) mRootView.findViewById(R.id.popularMovieReviewTxtId);
-        mPopularMovieThumbnailImgView = (ImageView) mRootView.findViewById(R.id.popularMovieThumbnailImgViewId);
-        mPopularMoviesTrailersListView = (ListView) mRootView.findViewById(R.id.movieTrailersListViewId);
-        mPopularMoviesReviewsListView = (ListView) mRootView.findViewById(R.id.movieReviewsListViewId);
-        mMarkFavoriteBtn = (Button) mRootView.findViewById(R.id.markFavoriteBtnId);
+        ButterKnife.bind(this, mRootView);
 
         if (!mIsNetworkConnected) {
             if (mMoviesDataModel.isMovieFavorite()) {
@@ -102,26 +114,9 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
                 mMarkFavoriteBtn.setEnabled(true);
             }
         }
-        mMarkFavoriteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Save favorite
-                saveFavoriteMovieToDb();
-            }
-        });
 
         mPopularMoviesTrailersListView.setOnTouchListener(this);
         mPopularMoviesReviewsListView.setOnTouchListener(this);
-
-        mPopularMoviesTrailersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                MoviesDataModel mMoviesDataModel = (MoviesDataModel) parent.getItemAtPosition(position);
-                intent.setData(Uri.parse(PopularMovieConstants.YOUTUBE_VIDEO_URL + mMoviesDataModel.getMovieTrailerKey()));
-                startActivity(intent);
-            }
-        });
 
         if (mMoviesDataModel != null) {
             showMovieDetails(mMoviesDataModel);
@@ -140,6 +135,7 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        ButterKnife.unbind(this);
         if (getResources().getBoolean(R.bool.isDeviceTypePhone)) {
             getTargetFragment().setMenuVisibility(true);
             getActivity().setTitle(PopularMoviesFragment.mCurrentSortChoiceStr);
@@ -174,8 +170,6 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
         Intent mShareIntent = new Intent(Intent.ACTION_SEND);
         mShareIntent.setType("text/plain");
         mShareIntent.putExtra(Intent.EXTRA_TEXT, mContext.getString(R.string.trailer_share_msg_text) + data);
-//        Intent mShareIntent = new Intent(Intent.ACTION_VIEW);
-//        mShareIntent.setData(Uri.parse(data));
         if (mShareActionProvider != null) {
             mShareActionProvider.setShareIntent(mShareIntent);
         }
@@ -191,7 +185,8 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
         Picasso.with(mContext).load(mPosterThumbnailUrlStr + mMoviesDataModel.getMoviePosterPath()).into(mPopularMovieThumbnailImgView);//.into(mTarget);
     }
 
-    private void saveFavoriteMovieToDb() {
+    @OnClick(R.id.markFavoriteBtnId)
+    void saveFavoriteMovieToDb() {
 
         Gson gson = new Gson();
         mMoviesDataModel.setIsMovieFavorite(true);
@@ -201,6 +196,14 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
 
         mMarkFavoriteBtn.setEnabled(false);
 
+    }
+
+    @OnItemClick(R.id.movieTrailersListViewId)
+    void handleMovieTrailerListIemClick(AdapterView<?> parent, int position) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        MoviesDataModel mMoviesDataModel = (MoviesDataModel) parent.getItemAtPosition(position);
+        intent.setData(Uri.parse(PopularMovieConstants.YOUTUBE_VIDEO_URL + mMoviesDataModel.getMovieTrailerKey()));
+        startActivity(intent);
     }
 
     private void updateReviewsList(Object data, boolean shouldUpdate) {
@@ -214,7 +217,6 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
         } else {
             mPopularMovieReviewTxtView.setText(R.string.no_movie_reviews_yet);
             mPopularMoviesReviewsListView.setVisibility(View.GONE);
-//            Utils.getToast(mContext, mContext.getString(R.string.http_error_msg_text)).show();
         }
     }
 
@@ -269,10 +271,12 @@ public class PopularMoviesDetailFragment extends Fragment implements UpdateViewL
     public void updateView(Object data, boolean shouldUpdate, int requestType) {
         switch (requestType) {
             case PopularMovieConstants.REQUEST_TYPE_MOVIE_TRAILERS:
-                updateTrailersList(data, shouldUpdate);
+                if (mPopularMoviesTrailersListView != null)
+                    updateTrailersList(data, shouldUpdate);
                 break;
             case PopularMovieConstants.REQUEST_TYPE_MOVIE_REVIEWS:
-                updateReviewsList(data, shouldUpdate);
+                if (mPopularMoviesReviewsListView != null)
+                    updateReviewsList(data, shouldUpdate);
                 break;
         }
     }
